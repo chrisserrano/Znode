@@ -257,8 +257,9 @@ function NodeGraph(){
     n.css({"position" : "absolute",      
            "left" : xp, "top" : yp,
            "width" : w, "height" : h,   
-           "border" : "1px solid gray",
-           "background-color" : "white"});
+           "border" : "1px solid black",
+           "background-color" : "white",
+           "box-shadow" : "2px 2px 8px rgba(0,0,0,0.75)"});
     n.css("z-index", zindex++);
            
     this.content = n;
@@ -325,7 +326,8 @@ function NodeGraph(){
                  "width" : "10px", "height" : "10px",
                  "left" : nodeWidth - 11, "top" : nodeHeight - 11,
                  "background-color" : "white", "font-size" : "1px",
-                 "border" : "1px solid gray",
+                 "border-top" : "1px solid gray",
+                 "border-left" : "1px solid gray",
                  "cursor" : "pointer"});
     
     n.append("<div class='left'>");
@@ -372,7 +374,7 @@ function NodeGraph(){
     
     function setupConnection(div){
       div.css({"position" : "absolute", "width" : "10px", "padding":0,
-               "height" : "10px", "background-color" : "#aaaaaa",
+               "height" : "10px", "background-color" : "rgba(60,60,60,1)",
                "font-size" : "1px", "cursor" : "pointer"});
     }
     
