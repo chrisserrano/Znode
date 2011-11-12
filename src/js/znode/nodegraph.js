@@ -50,14 +50,10 @@ function NodeGraph(){
   function connectNode(dir){
     var node, x, y;
     dir = dir.toLowerCase();
-    
-    
-    
       
     if (dir == "left"){
       x = pathEnd.x + 5;
       y = pathEnd.y + topHeight - currentNode.height() / 2;
-      
     }else if (dir == "right"){
       x = pathEnd.x - currentNode.width() - 5;
       y = pathEnd.y + topHeight - currentNode.height() / 2;
@@ -69,7 +65,6 @@ function NodeGraph(){
       y = pathEnd.y + topHeight - 5 - currentNode.height();
     }
     
- 
     node = new Node(x, y, currentNode.width(), currentNode.height());
     saveConnection(node, dir);
     currentNode = node;
@@ -323,11 +318,12 @@ function NodeGraph(){
     var resizer = $(".node .resizer").last();
     
     resizer.css({"position" : "absolute" , "z-index" : 10,
-                 "width" : "10px", "height" : "10px",
+                 "width" : "0px", "height" : "0px",
                  "left" : nodeWidth - 11, "top" : nodeHeight - 11,
                  "background-color" : "white", "font-size" : "1px",
-                 "border-top" : "1px solid gray",
-                 "border-left" : "1px solid gray",
+                 "border-style" : "solid",
+                 "border-width" : "5px",
+                 "border-color" : "transparent gray gray transparent",
                  "cursor" : "pointer"});
     
     n.append("<div class='left'>");
@@ -399,8 +395,7 @@ function NodeGraph(){
        }
     }
     this.updateConnections = updateConnections;
-    
-    
+   
    function addLink(e){
       currentNode = curr;
       e.preventDefault();
@@ -449,8 +444,10 @@ function NodeGraph(){
         var loc = resizer.position();
         var x = loc.left;
         var y = loc.top;
-        n.css({"width" : x + resizer.width() + 1,
-               "height" : y + resizer.height() + 1});
+        // Replaced resizer.width() & resizer.height() with constant 10
+        // since resizer now has 0 width & height but 5px borders
+        n.css({"width" : x + 10 + 1,
+               "height" : y + 10 + 1});
         
         txt.css({"width" : n.width() - 5, "height" : n.height() - bar.height() - 5});
         
