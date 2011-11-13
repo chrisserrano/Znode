@@ -2,8 +2,9 @@ $(function(){
   
   var graph = new NodeGraph();
   
+  // Create a new node when clicking on canvas
   // consider moving to NodeGraph
-  $("#canvas").mouseup(function(e){
+  $("#canvas").mousedown(function(e){
      if (openWin.css("display") == "none"){
        var children = $(e.target).children();
        if (children.length > 0){
