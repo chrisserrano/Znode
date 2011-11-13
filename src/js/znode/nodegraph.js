@@ -274,22 +274,24 @@ function NodeGraph(){
          
     var nodeWidth = n.width();
     var nodeHeight = n.height();
-           
-    n.append("<div class='bar'/>");
+    
+    // Add top bar
+    n.append("<div class='bar'><\/div>");
     var bar = $(".node .bar").last();
-    bar.css({"height" : "10px", 
-             "background-color" : "gray", 
+    bar.css({"height" : "15px", 
+             "background-color" : "#333",
+             "color": "white", "text-align": "center",
              "padding" : "0", "margin": "0",
-             "font-size" : "9px", "cursor" : "pointer"});
-             
-             
+             "font-size" : "12px", "cursor" : "pointer", "z-index" : 90});
+    
+    // Add delete (X) button
     if (!noDelete){
       n.append("<div class='ex'>X<\/div>");
       var ex = $(".node .ex").last();
       ex.css({"position":"absolute","padding-right" : 2, "padding-top" : 1, "padding-left" : 2,
               "color" : "white", "font-family" : "sans-serif",
-              "top" : 0, "left": 0, "cursor": "pointer",
-              "font-size" : "7px", "background-color" : "gray", "z-index" : 100});
+              "top" : 0, "left": 2, "cursor": "pointer",
+              "font-size" : "10px", "background-color" : "#333", "z-index" : 100});
       ex.hover(function(){
         ex.css("color","black");
       }, function(){
@@ -301,22 +303,76 @@ function NodeGraph(){
         }
       });
     }
-   
-    n.append("<textarea class='txt' spellcheck='false' />");
+    
+	// Add info (i) button
+	n.append("<div class='info'>i<\/div>");
+	var info = $(".node .info").last();
+	info.css({"position":"absolute","padding-right" : 2, "padding-top" : 1, "padding-left" : 2,
+	        "color" : "white", "font-family" : "serif",
+	        "top" : 0, "right": 2, "cursor": "pointer",
+	        "font-size" : "12px", "background-color" : "#333", "z-index" : 100});
+	info.hover(function(){
+	  info.css("color","black");
+	}, function(){
+	  info.css("color","white");
+	}).click(function(){
+	  confirm("Info button will reveal more class details")
+	  // TODO info button functionality
+	});
+	
+	// Add class name
+   	n.append("<textarea class='className' spellcheck='false'>Class Name</textarea>");
+    var className = $(".node .className").last();
+    className.css("position","absolute");
+    className.css({"width" : nodeWidth,
+             "height" : "16px",
+             "background-color" : "#AAA", 
+             "padding" : "0", "margin": "0", "border": "none",
+             "resize" : "none", "overflow" : "hidden",
+             "font-size" : "13px", "font-family" : "courier", "font-weight":"bold",
+             "text-align" : "center", "border-bottom": "1px solid black",
+             "z-index":6});
+    this.className = className;
+    
+    // Add attributes list
+   	// TODO Add ability to add/remove functions
+   	n.append("<textarea class='attribs' spellcheck='false'>Functions/variables/composition</textarea>");
+    var attribs = $(".node .attribs").last();
+    attribs.css("position","absolute");
+    attribs.css({"width" : nodeWidth,
+             "height" : "16px",
+             "top" : bar.height() + className.height(),
+             "padding" : "0", "margin": "0", "border": "none",
+             "resize" : "none", "overflow" : "hidden",
+             "font-size" : "12px" , "font-family" : "courier",
+             "border-bottom": "1px solid black",
+             "z-index":5});
+    this.attribs = attribs;
+    
+    // TODO Add total height of all elements above the source code text box
+    // attribHeight = 
+    
+   	// TODO Add variables list (v)
+   	
+   	// TODO Add global variable dependencies (G)
+   	
+   	// TODO Add composition list (c)
+   	
+   	// Add text area (source code)
+    n.append("<textarea class='txt' spellcheck='false'>Source code</textarea>");
     var txt = $(".node .txt").last();
     txt.css("position","absolute");
-   
     txt.css({"width" : nodeWidth - 5,
-             "height" : nodeHeight - bar.height() - 5,
+             "height" : nodeHeight - bar.height() - className.height() - attribs.height() - 5,
+             "top" : bar.height() + className.height() + attribs.height(),
              "resize" : "none", "overflow" : "hidden",
-             "font-size" : "12px" , "font-family" : "sans-serif",
+             "font-size" : "12px" , "font-family" : "courier",
              "border" : "none","z-index":4});
-          
     this.txt = txt;
     
+    // Add resizer
     n.append("<div class='resizer' />");
     var resizer = $(".node .resizer").last();
-    
     resizer.css({"position" : "absolute" , "z-index" : 10,
                  "width" : "0px", "height" : "0px",
                  "left" : nodeWidth - 11, "top" : nodeHeight - 11,
@@ -326,6 +382,7 @@ function NodeGraph(){
                  "border-color" : "transparent gray gray transparent",
                  "cursor" : "pointer"});
     
+    // Add connector boxes to each side
     n.append("<div class='left'>");
     n.append("<div class='top'>");
     n.append("<div class='right'>");
@@ -333,10 +390,8 @@ function NodeGraph(){
     
     var left = $(".node .left").last();
     left.css("left","-11px");
-    
     var top = $(".node .top").last();
     top.css("top","-11px");
-    
     var right = $(".node .right").last();
     var bottom = $(".node .bottom").last();
     
@@ -425,6 +480,7 @@ function NodeGraph(){
    top.mousedown(addLink);
    bottom.mousedown(addLink);
    
+   // Remove the node
    this.remove = function(){
      for (var i in curr.connections){
        var c = curr.connections[i];
@@ -436,10 +492,11 @@ function NodeGraph(){
      delete nodes[this.id];
    }
     
+    // Resizer behavior
     resizer.mousedown(function(e){
       currentNode = curr;
       e.preventDefault();
-      startDrag(resizer, {left : 20, top : 20, right : 500, bottom : 500},
+      startDrag(resizer, {left : 100, top : 100, right : 500, bottom : 500},
       function(){
         var loc = resizer.position();
         var x = loc.left;
@@ -449,7 +506,9 @@ function NodeGraph(){
         n.css({"width" : x + 10 + 1,
                "height" : y + 10 + 1});
         
-        txt.css({"width" : n.width() - 5, "height" : n.height() - bar.height() - 5});
+        className.css({"width" : n.width()});
+        attribs.css({"width" : n.width()});
+        txt.css({"width" : n.width() - 5, "height" : n.height() - bar.height() - className.height() - attribs.height() - 5});
         
         positionLeft();
         positionRight();
@@ -459,6 +518,7 @@ function NodeGraph(){
       });
     });
     
+    // Top bar behavior
     bar.mousedown(function(e){
       currentNode = curr;
       n.css("z-index", zindex++);
@@ -467,6 +527,7 @@ function NodeGraph(){
       updateConnections);
     });
     
+    // Put box on top on mouse over
     n.mouseenter(function(){
       n.css("z-index", zindex++);
     });
@@ -515,14 +576,14 @@ function NodeGraph(){
     return new Node(x, y, w, h, noDelete);
   }
   
-  var defaultWidth = 100;
-  var defaultHeight = 50;
+  var defaultWidth = 200;
+  var defaultHeight = 150;
   
   this.addNodeAtMouse = function(){
     //alert("Zevan");
     var w = currentNode.width() || defaultWidth;
     var h = currentNode.height () || defaultHeight;
-    var temp = new Node(mouseX, mouseY + 30, w, h);
+    var temp = new Node(mouseX - 10, mouseY + 30, w, h);
     currentNode = temp;
     currentConnection = null;
   }
@@ -545,6 +606,10 @@ function NodeGraph(){
       var temp = new Node(n.x, n.y, n.width, n.height, ex, n.id);
       var addreturns = n.txt.replace(/\\n/g,'\n');
       temp.txt.val(addreturns);
+      addreturns = n.className.replace(/\\n/g,'\n');
+      temp.className.val(addreturns);
+      addreturns = n.attribs.replace(/\\n/g,'\n');
+      temp.attribs.val(addreturns);
     }
     for (i in data.connections){
       var c = data.connections[i];
@@ -561,7 +626,9 @@ function NodeGraph(){
       json += '"y" : ' + n.y() + ', ';
       json += '"width" : ' + n.width() + ', ';
       json += '"height" : ' + n.height() + ', ';
-      json += '"txt" : "' + addSlashes(n.txt.val()) + '"},';
+      json += '"txt" : "' + addSlashes(n.txt.val()) + '", ';
+      json += '"className" : "' + addSlashes(n.className.val()) + '", ';
+      json += '"attribs" : "' + addSlashes(n.attribs.val()) + '"},';
     }
     json = json.substr(0, json.length - 1);
     json += '], "connections" : [';
