@@ -1,5 +1,11 @@
 $(function(){
   
+  // TODO temporary code to show where sliders will go
+  $(document).ready(function(){
+  	$("#canvas").append("<div style='position: absolute; bottom: 10px; text-align: center; width: 100%'>[Horizontal slider here]</div>");
+  	$("#canvas").append("<div style='position: absolute; top: 50%; right: 10px; text-align: center; height: 100%'>[Vertical slider here]</div>");
+  });
+  
   var graph = new NodeGraph();
   
   // Create a new node when clicking on canvas
@@ -90,4 +96,7 @@ $(function(){
     $(this).css({"background-color": "white"});
   });
   
+  $("#globals").click(function(){
+    confirm("This will toggle the global variables view.");
+  });
 });
