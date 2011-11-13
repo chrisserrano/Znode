@@ -25,7 +25,9 @@ $(function(){
     $(this).animate({"backgroundColor" : "#efefef"});
   });
   $("#clear").click(function(){
-    graph.clearAll();
+  	if (confirm("Clear all contents?")) {
+    	graph.clearAll();
+  	}
   });
   $("#help").click(function(){
     window.open("http://www.zreference.com/znode", "_blank");
