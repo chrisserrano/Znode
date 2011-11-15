@@ -316,16 +316,17 @@ function NodeGraph(){
 	}, function(){
 	  info.css("color","white");
 	}).click(function(){
-	  confirm("Info button will reveal more class details")
+	  confirm("Info button will reveal more class details (composition & function call views)")
 	  // TODO info button functionality
 	});
 	
 	// Add class name
+	// TODO 
    	n.append("<textarea class='className' spellcheck='false'>Class Name</textarea>");
     var className = $(".node .className").last();
     className.css("position","absolute");
     className.css({"width" : nodeWidth,
-             "height" : "16px",
+             "height" : "15px",
              "background-color" : "#AAA", 
              "padding" : "0", "margin": "0", "border": "none",
              "resize" : "none", "overflow" : "hidden",
@@ -336,11 +337,12 @@ function NodeGraph(){
     
     // Add attributes list
    	// TODO Add ability to add/remove functions
-   	n.append("<textarea class='attribs' spellcheck='false'>Functions/variables/composition</textarea>");
+   	n.append("<textarea class='attribs' spellcheck='false'>List functions, variables, etc.</textarea>");
     var attribs = $(".node .attribs").last();
     attribs.css("position","absolute");
     attribs.css({"width" : nodeWidth,
-             "height" : "16px",
+             "height" : "30px",
+             "background-color" : "#DDD",
              "top" : bar.height() + className.height(),
              "padding" : "0", "margin": "0", "border": "none",
              "resize" : "none", "overflow" : "hidden",
@@ -348,15 +350,6 @@ function NodeGraph(){
              "border-bottom": "1px solid black",
              "z-index":5});
     this.attribs = attribs;
-    
-    // TODO Add total height of all elements above the source code text box
-    // attribHeight = 
-    
-   	// TODO Add variables list (v)
-   	
-   	// TODO Add global variable dependencies (G)
-   	
-   	// TODO Add composition list (c)
    	
    	// Add text area (source code)
     n.append("<textarea class='txt' spellcheck='false'>Source code</textarea>");
