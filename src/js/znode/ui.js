@@ -96,7 +96,15 @@ $(function(){
     $(this).css({"background-color": "white"});
   });
   
+  // Globals button
+  // TODO add globals functionality
   $("#globals").click(function(){
     confirm("This will toggle the global variables view.");
+  });
+  
+  // Resources button
+  // TODO add resources functionality
+  $("#resources").click(function(){
+    confirm("This will toggle the resources view.");
   });
 });
