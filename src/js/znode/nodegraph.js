@@ -18,14 +18,19 @@ function NodeGraph(){
   var SHIFT = 16;
   var topHeight = $("#controls").height();
   
-  var paper = new Raphael("canvas", "100", "100");
+  // default workspace dimensions
+  var workspaceWidth = 1000;  
+  var workspaceHeight = 1000;
+  var paper = new Raphael("canvas", workspaceWidth, workspaceHeight);
   
-  function resizePaper(){
-    paper.setSize(win.width(), win.height() - topHeight);
-  }
-  win.resize(resizePaper);
-  resizePaper();
+  // Resizing of the canvas
+  //function resizePaper(){
+    //paper.setSize(win.width(), win.height() - topHeight);
+  //}
+  //win.resize(resizePaper);
+  //resizePaper();
   
+  // Add menu to the top of the canvas
   canvas.append("<ul id='menu'><li>Left<\/li><li>Right<\/li><li>Top<\/li><li>Bottom<\/li><\/ul>");
   var menu = $("#menu");
   menu.css({"position" : "absolute", "left" : 100, "top" : 0, "z-index" : 5000, "border" : "1px solid gray", "padding" : 0});
@@ -254,7 +259,7 @@ function NodeGraph(){
            "width" : w, "height" : h,   
            "border" : "1px solid black",
            "background-color" : "white",
-           "box-shadow" : "2px 2px 8px rgba(0,0,0,0.75)"});
+           "box-shadow" : "0px 2px 5px rgba(0,0,0,0.75)"});
     n.css("z-index", zindex++);
            
     this.content = n;
@@ -498,7 +503,6 @@ function NodeGraph(){
         // since resizer now has 0 width & height but 5px borders
         n.css({"width" : x + 10 + 1,
                "height" : y + 10 + 1});
-        
         className.css({"width" : n.width()});
         attribs.css({"width" : n.width()});
         txt.css({"width" : n.width() - 5, "height" : n.height() - bar.height() - className.height() - attribs.height() - 5});
@@ -516,7 +520,7 @@ function NodeGraph(){
       currentNode = curr;
       n.css("z-index", zindex++);
       e.preventDefault();
-      startDrag(n, {left : 10, top: 40, right : win.width() - n.width() - 10, bottom : win.height() - n.height() - 10},
+      startDrag(n, {left : 10, top: 40, right : workspaceWidth - n.width() - 10, bottom : workspaceHeight - n.height() - 10},
       updateConnections);
     });
     
@@ -524,7 +528,6 @@ function NodeGraph(){
     n.mouseenter(function(){
       n.css("z-index", zindex++);
     });
-    
   }
   
   function hitTest(a, b){
@@ -569,28 +572,28 @@ function NodeGraph(){
     return new Node(x, y, w, h, noDelete);
   }
   
-  var defaultWidth = 200;
-  var defaultHeight = 150;
+  var defaultNodeWidth = 200;
+  var defaultNodeHeight = 150;
   
   this.addNodeAtMouse = function(){
     //alert("Zevan");
-    var w = currentNode.width() || defaultWidth;
-    var h = currentNode.height () || defaultHeight;
+    var w = currentNode.width() || defaultNodeWidth;
+    var h = currentNode.height () || defaultNodeHeight;
     var temp = new Node(mouseX - 10, mouseY + 30, w, h);
     currentNode = temp;
     currentConnection = null;
   }
   
   function defaultNode(){
-    
-    var temp = new Node(win.width() / 2 - defaultWidth / 2, 
-                        win.height() / 2 - defaultHeight / 2,
-                        defaultWidth, defaultHeight, true);
+    var temp = new Node(win.width() / 2 - defaultNodeWidth / 2, 
+                        win.height() / 2 - defaultNodeHeight / 2,
+                        defaultNodeWidth, defaultNodeHeight, true);
     temp.txt[0].focus();
     currentNode = temp;
   }
   defaultNode();
 
+  // load JSON file
   this.fromJSON = function(data){
     clear();
     for (var i in data.nodes){
@@ -610,6 +613,7 @@ function NodeGraph(){
     }
   }
   
+  // save to JSON file
   this.toJSON = function(){
     var json = '{"nodes" : [';
     for (var i in nodes){
@@ -644,6 +648,7 @@ function NodeGraph(){
     return json;
   }
   
+  // JSON helper function
   function addSlashes(str) {
     str = str.replace(/\\/g,'\\\\');
     str = str.replace(/\'/g,'\\\'');
