@@ -21,6 +21,7 @@ function NodeGraph(){
   // default workspace dimensions
   var workspaceWidth = 1000;  
   var workspaceHeight = 1000;
+  var menuHeight = 41; // top menu height (px) to offset Raphael to line up with nodes
   var paper = new Raphael("canvas", workspaceWidth, workspaceHeight);
   
   // Resizing of the canvas
@@ -58,16 +59,16 @@ function NodeGraph(){
       
     if (dir == "left"){
       x = pathEnd.x + 5;
-      y = pathEnd.y + topHeight - currentNode.height() / 2;
+      y = pathEnd.y - currentNode.height() / 2;
     }else if (dir == "right"){
       x = pathEnd.x - currentNode.width() - 5;
-      y = pathEnd.y + topHeight - currentNode.height() / 2;
+      y = pathEnd.y - currentNode.height() / 2;
     }else if (dir == "top"){
       x = pathEnd.x - currentNode.width() / 2;
-      y = pathEnd.y + topHeight + 5;
+      y = pathEnd.y + 5;
     }else if (dir == "bottom"){
       x = pathEnd.x - currentNode.width() / 2;
-      y = pathEnd.y + topHeight - 5 - currentNode.height();
+      y = pathEnd.y - 5 - currentNode.height();
     }
     
     node = new Node(x, y, currentNode.width(), currentNode.height());
@@ -131,7 +132,7 @@ function NodeGraph(){
   
   $(document).mousemove(function(e){
     mouseX = e.pageX;
-    mouseY = e.pageY - topHeight;
+    mouseY = e.pageY;
   }).mouseup(function(e){
     overlay.hide();
     var creatingNewNode = newNode;
@@ -432,7 +433,7 @@ function NodeGraph(){
       var nLoc = n.position();
       var point = {};
       point.x = nLoc.left + loc.left + 5;
-      point.y = nLoc.top - topHeight + loc.top + 5;
+      point.y = nLoc.top + loc.top + 5;
       return point;
     }
     
@@ -462,7 +463,7 @@ function NodeGraph(){
       var loc = $(this).position();
       var nLoc = n.position();
       var x = loc.left + nLoc.left + 5;
-      var y = loc.top + nLoc.top - topHeight + 5;
+      var y = loc.top + nLoc.top + 5;
       newNode = true;
       
       var id = setInterval(function(){
