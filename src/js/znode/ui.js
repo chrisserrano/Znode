@@ -1,11 +1,6 @@
 $(function(){
   
-  // TODO temporary code to show where sliders will go
-  $(document).ready(function(){
-  	$("#canvas").append("<div style='position: absolute; bottom: 10px; text-align: center; width: 100%'>[Horizontal slider here]</div>");
-  	$("#canvas").append("<div style='position: absolute; top: 50%; right: 10px; text-align: center; height: 100%'>[Vertical slider here]</div>");
-  });
-  
+  // Composition of NodeGraph in ui
   var graph = new NodeGraph();
   
   // Create a new node when clicking on canvas
@@ -22,26 +17,15 @@ $(function(){
      }
   });
   
-  // ui code
-  var openWin = $("#openWin");
-  openWin.hide();
- 
+  // Behavior for all buttons
   $(".btn").mouseenter(function(){
     $(this).animate({"backgroundColor" : "white"}, 200);
   }).mouseleave(function(){
     $(this).animate({"backgroundColor" : "#efefef"});
   });
-  $("#clear").click(function(){
-  	if (confirm("Clear all contents?")) {
-    	graph.clearAll();
-  	}
-  });
-  $("#help").click(function(){
-    window.open("http://www.zreference.com/znode", "_blank");
-  });
   
+  // Save button
   $("#save").click(saveFile);
-  
   function saveFile(){
     var name = filename.val();
     if (name == "" || name == nameMessage){
@@ -54,17 +38,21 @@ $(function(){
     });
   }
   
+  // Open window
+  var openWin = $("#openWin");
+  // Hide Open at startup
+  openWin.hide();
+  // Hide when clicking elsewhere
   $("#canvas").mousedown(function(){
     openWin.fadeOut();
   });
-  
+  // Show when clicking Open button
   $("#open").click(function(){
     var fileList =  $("#files");
     fileList.html("<div>loading...<\/div>");
     openWin.fadeIn();
     fileList.load("json/files.php?"+Math.random()*1000000);
   });
-  
   var nameMessage = "Enter your file name";
   var filename = $("#filename").val(nameMessage);
 
@@ -94,6 +82,18 @@ $(function(){
     $(this).css({"background-color": "#ededed"});
   }).live("mouseout", function(){
     $(this).css({"background-color": "white"});
+  });
+  
+  // Clear All button
+  $("#clear").click(function(){
+  	if (confirm("Clear all contents?")) {
+    	graph.clearAll();
+  	}
+  });
+  
+  // Help button
+  $("#help").click(function(){
+    window.open("http://www.zreference.com/znode", "_blank");
   });
   
   // Globals button
