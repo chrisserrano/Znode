@@ -327,7 +327,6 @@ function NodeGraph(){
 	});
 	
 	// Add class name
-	// TODO 
    	n.append("<textarea class='className' spellcheck='false'>Class Name</textarea>");
     var className = $(".node .className").last();
     className.css("position","absolute");
