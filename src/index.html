@@ -5,8 +5,8 @@
     <title>cserrano final project</title>
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <link rel="stylesheet" href="css/redmond/jquery-ui-1.8.16.custom.css" type="text/css" />
-    <script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
-    <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+    <script type="text/javascript" src="js/libs/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="js/libs/jquery-ui-1.8.16.custom.min.js"></script>
     <!--<script type="text/javascript" src="js/libs/jquery.color.js"></script>-->
     <script type="text/javascript" src="js/libs/raphael.js"></script>
     <script type="text/javascript" src="js/znode/classgraph.js"></script>
@@ -19,24 +19,26 @@
       <div id="files"></div>
     </div>
     <div id="overlay"></div>
-    <div id="controls">
-      <div id="logo" >*</div>
-      <div id="save" class="btn">Save</div>
-      <div id="open" class="btn">Open</div>
-      <div id="clear" class="btn">Clear All</div>
-      <div id="help" class="btn">Help</div>
-      <div id="saveForm">
-        <form id="nameForm">
-         Filename:
-         <input type="text" name="filename" id="filename" spellcheck="false"/>
-        </form>
-      </div>
-      <div id="inheritance" class="btn">Inheritance</div>
-      <div id="source" class="btn">Source</div>
-      <div id="globals" class="btn">Globals</div>
-      <div id="resources" class="btn">Resources</div>
-    </div>
-
+    <div id="controlsContainer">
+	    <div id="controls">
+	      <div id="logo" >*</div>
+	      <div id="save" class="btn">Save</div>
+	      <div id="open" class="btn">Open</div>
+	      <div id="clear" class="btn">Clear All</div>
+	      <div id="help" class="btn">Help</div>
+	      <div id="saveForm">
+	        <form id="nameForm">
+	         Filename:
+	         <input type="text" name="filename" id="filename" spellcheck="false"/>
+	        </form>
+	      </div>
+	      <div id="inheritance" class="btn">Inheritance</div>
+	      <div id="source" class="btn">Source</div>
+	      <div id="globals" class="btn">Globals</div>
+	      <div id="resources" class="btn">Resources</div>
+	    </div>
+	</div>
+	
     <div id="classCanvas"></div>
     
     <div id="sourceView">
