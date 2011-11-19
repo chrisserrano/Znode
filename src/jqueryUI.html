@@ -47,6 +47,31 @@
 
 	<p style="font-weight: bold; margin: 2em 0 1em; font-size: 1.3em;">YOUR COMPONENTS:</p>
 		
+		<!-- Sortable -->
+		<h2 class="demoHeaders">Sortable</h2>
+			<style>
+			#sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+			#sortable > div { float: left; }
+			#source { width: 150px; height: 35px; padding: 0.5em; }
+			</style>
+			<script>
+			$(function() {
+				$( "#sortable" ).sortable();
+				$( "#sortable" ).disableSelection();
+			});
+			</script>
+		
+		
+		<div class="demo">
+		
+		<ul id="sortable">
+			<div id="source" class="ui-state-default">Item 1</div>
+			<div id="source" class="ui-state-default">Item 2</div>
+			<div id="source" class="ui-state-default">Item 3</div>
+		</ul>
+		
+		</div>
+		
 		<!-- Accordion -->
 		<h2 class="demoHeaders">Accordion</h2>
 		<div id="accordion">
@@ -296,7 +321,6 @@
 				<strong>Alert:</strong> Sample ui-state-error style.</p>
 			</div>
 		</div>
-
 	</body>
 </html>
 

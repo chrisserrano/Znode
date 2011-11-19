@@ -1,6 +1,6 @@
-function NodeGraph(){
+function ClassGraph(){
   var win = $(window);
-  var canvas = $("#canvas");
+  var canvas = $("#classCanvas");
   var overlay = $("#overlay");
   var currentNode;
   var currentConnection = {};
@@ -21,8 +21,7 @@ function NodeGraph(){
   // default workspace dimensions
   var workspaceWidth = 1000;  
   var workspaceHeight = 1000;
-  var menuHeight = 41; // top menu height (px) to offset Raphael to line up with nodes
-  var paper = new Raphael("canvas", workspaceWidth, workspaceHeight);
+  var paper = new Raphael("classCanvas", workspaceWidth, workspaceHeight);
   
   // Resizing of the canvas
   //function resizePaper(){
@@ -31,7 +30,6 @@ function NodeGraph(){
   //win.resize(resizePaper);
   //resizePaper();
   
-  // Add menu to the top of the canvas
   canvas.append("<ul id='menu'><li>Left<\/li><li>Right<\/li><li>Top<\/li><li>Bottom<\/li><\/ul>");
   var menu = $("#menu");
   menu.css({"position" : "absolute", "left" : 100, "top" : 0, "z-index" : 5000, "border" : "1px solid gray", "padding" : 0});

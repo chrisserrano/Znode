@@ -1,17 +1,26 @@
 $(function(){
   
-  // Composition of NodeGraph in ui
-  var graph = new NodeGraph();
+  // Inheritance view
+  var classGraph = new ClassGraph();
+  // Source code view
+  var sourceView = new SourceView();
+  
+  // Default view is inheritance view
+  $("#sourceView").hide();
+  
+  // JQueryUI Sortable functionality
+  $( "#sortable" ).sortable();
+  $( "#sortable" ).disableSelection();
   
   // Create a new node when clicking on canvas
-  // consider moving to NodeGraph
-  $("#canvas").mousedown(function(e){
+  // Only for inheritance view
+  $("#classCanvas").mousedown(function(e){
      if (openWin.css("display") == "none"){
        var children = $(e.target).children();
        if (children.length > 0){
          var type = children[0].tagName;
          if (type == "desc" || type == "SPAN"){
-           graph.addNodeAtMouse();
+           classGraph.addNodeAtMouse();
          }
        }
      }
@@ -33,7 +42,7 @@ $(function(){
       filename[0].focus();
       return;
     }
-    $.post("json/save.php", {data:graph.toJSON(), name:name}, function(data){
+    $.post("json/save.php", {data:classGraph.toJSON(), name:name}, function(data){
       alert("Your file was saved.");
     });
   }
@@ -42,8 +51,11 @@ $(function(){
   var openWin = $("#openWin");
   // Hide Open at startup
   openWin.hide();
-  // Hide when clicking elsewhere
-  $("#canvas").mousedown(function(){
+  // Hide when clicking elsewhere on the canvasses
+  $("#classCanvas").mousedown(function(){
+    openWin.fadeOut();
+  });
+  $("#sourceView").mousedown(function(){
     openWin.fadeOut();
   });
   // Show when clicking Open button
@@ -74,7 +86,7 @@ $(function(){
   $(".file").live('click', function() {
     var name = $(this).text();
     $.getJSON("files/" + name + ".json", {n:Math.random()}, function(data){
-       graph.fromJSON(data);
+       classGraph.fromJSON(data);
        
        filename.val(name);
     });
@@ -87,13 +99,25 @@ $(function(){
   // Clear All button
   $("#clear").click(function(){
   	if (confirm("Clear all contents?")) {
-    	graph.clearAll();
+    	classGraph.clearAll();
   	}
   });
   
   // Help button
   $("#help").click(function(){
     window.open("http://www.zreference.com/znode", "_blank");
+  });
+  
+  // Inheritance view button
+  $("#inheritance").click(function(){
+  	$("#classCanvas").fadeIn();
+  	$("#sourceView").hide();
+  });
+  
+  // Source code view button
+  $("#source").click(function(){
+  	$("#sourceView").fadeIn();
+  	$("#classCanvas").hide();
   });
   
   // Globals button
