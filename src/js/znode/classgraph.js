@@ -23,6 +23,9 @@ function ClassGraph(){
   var workspaceHeight = 1000;
   var paper = new Raphael("classCanvas", workspaceWidth, workspaceHeight);
   
+  // Test local storage
+  localStorage.test = "local storage text";
+  
   // Resizing of the canvas
   //function resizePaper(){
     //paper.setSize(win.width(), win.height() - topHeight);
@@ -197,7 +200,7 @@ function ClassGraph(){
     }catch(e){}
     loops = [];
     
-    if (creatingNewNode) currentNode.txt[0].focus();
+    if (creatingNewNode) currentNode.attribs[0].focus();
   });
   
   function toGlobal(np, c){
@@ -334,37 +337,24 @@ function ClassGraph(){
              "padding" : "0", "margin": "0", "border": "none",
              "resize" : "none", "overflow" : "hidden",
              "font-size" : "13px", "font-family" : "courier", "font-weight":"bold",
-             "text-align" : "center", "border-bottom": "1px solid black",
-             "z-index":6});
+             "text-align" : "center", "border-bottom": "1px solid black"});
     this.className = className;
     
     // Add attributes list
    	// TODO Add ability to add/remove functions
-   	n.append("<textarea class='attribs' spellcheck='false'>List functions, variables, etc.</textarea>");
+   	//n.append("<textarea class='attribs' spellcheck='false'>List functions, variables, etc.</textarea>");
+    n.append("<div class='attribs' spellcheck='false'><ul id='sortableFuncs'><li class='ui-state-default'><textarea>item 1</textarea><span class='ui-icon ui-icon-arrowthick-2-n-s'></span></li><li class='ui-state-default'><textarea>item 2</textarea><span class='ui-icon ui-icon-arrowthick-2-n-s'></span></li><li class='ui-state-default'><textarea>item 3</textarea><span class='ui-icon ui-icon-arrowthick-2-n-s'></span></li></ul></div>");
     var attribs = $(".node .attribs").last();
     attribs.css("position","absolute");
     attribs.css({"width" : nodeWidth,
-             "height" : "30px",
-             "background-color" : "#DDD",
+             "height" : nodeHeight - bar.height() - className.height(),
+             "background-color" : "#FFF",
              "top" : bar.height() + className.height(),
              "padding" : "0", "margin": "0", "border": "none",
              "resize" : "none", "overflow" : "hidden",
              "font-size" : "12px" , "font-family" : "courier",
-             "border-bottom": "1px solid black",
-             "z-index":5});
+             "border" : "none"});
     this.attribs = attribs;
-   	
-   	// Add text area (source code)
-    n.append("<textarea class='txt' spellcheck='false'>Source code</textarea>");
-    var txt = $(".node .txt").last();
-    txt.css("position","absolute");
-    txt.css({"width" : nodeWidth - 5,
-             "height" : nodeHeight - bar.height() - className.height() - attribs.height() - 5,
-             "top" : bar.height() + className.height() + attribs.height(),
-             "resize" : "none", "overflow" : "hidden",
-             "font-size" : "12px" , "font-family" : "courier",
-             "border" : "none","z-index":4});
-    this.txt = txt;
     
     // Add resizer
     n.append("<div class='resizer' />");
@@ -502,8 +492,7 @@ function ClassGraph(){
         n.css({"width" : x + 10 + 1,
                "height" : y + 10 + 1});
         className.css({"width" : n.width()});
-        attribs.css({"width" : n.width()});
-        txt.css({"width" : n.width() - 5, "height" : n.height() - bar.height() - className.height() - attribs.height() - 5});
+        attribs.css({"width" : n.width(), "height" : n.height() - bar.height() - className.height() - 5});
         
         positionLeft();
         positionRight();
@@ -586,7 +575,7 @@ function ClassGraph(){
     var temp = new Node(win.width() / 2 - defaultNodeWidth / 2, 
                         win.height() / 2 - defaultNodeHeight / 2,
                         defaultNodeWidth, defaultNodeHeight, true);
-    temp.txt[0].focus();
+    temp.attribs[0].focus();
     currentNode = temp;
   }
   defaultNode();
@@ -598,9 +587,7 @@ function ClassGraph(){
       var n = data.nodes[i];
       var ex = (i == "0") ? true : false;
       var temp = new Node(n.x, n.y, n.width, n.height, ex, n.id);
-      var addreturns = n.txt.replace(/\\n/g,'\n');
-      temp.txt.val(addreturns);
-      addreturns = n.className.replace(/\\n/g,'\n');
+      var addreturns = n.className.replace(/\\n/g,'\n');
       temp.className.val(addreturns);
       addreturns = n.attribs.replace(/\\n/g,'\n');
       temp.attribs.val(addreturns);
@@ -621,7 +608,6 @@ function ClassGraph(){
       json += '"y" : ' + n.y() + ', ';
       json += '"width" : ' + n.width() + ', ';
       json += '"height" : ' + n.height() + ', ';
-      json += '"txt" : "' + addSlashes(n.txt.val()) + '", ';
       json += '"className" : "' + addSlashes(n.className.val()) + '", ';
       json += '"attribs" : "' + addSlashes(n.attribs.val()) + '"},';
     }

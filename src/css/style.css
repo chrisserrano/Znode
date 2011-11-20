@@ -12,6 +12,32 @@ body, html{
 	font-size: 12px; font-family: Courier;
 }
 
+/* Function list within nodes */
+ul {
+    margin:0;
+    padding:0;
+    list-style:none;
+    border: none;
+    width:100%;
+}
+ul li {
+    margin:0;
+    padding:0;
+    height:17px;
+}
+ul li textarea {
+	position: absolute;
+	left: 20px;
+    right: 15px;
+    resize: none;
+    margin:0;
+    border: none;
+    padding:1px;
+    font-size:11px;
+    height:15px;
+    display:block;
+}
+
 #overlay{
   position: absolute;
   cursor: pointer;

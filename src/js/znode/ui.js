@@ -9,8 +9,9 @@ $(function(){
   $("#sourceView").hide();
   
   // JQueryUI Sortable functionality
-  $( "#sortable" ).sortable();
-  $( "#sortable" ).disableSelection();
+  $("#sortable").sortable();
+  $("#sortable").disableSelection();
+  $("#sortableFuncs").sortable();
   
   // Create a new node when clicking on canvas
   // Only for inheritance view
