@@ -27,8 +27,8 @@ ul li {
 }
 ul li textarea {
 	position: absolute;
-	left: 20px;
-    right: 15px;
+	left: 38px;
+    right: 1px;
     resize: none;
     margin:0;
     border: none;
@@ -36,6 +36,15 @@ ul li textarea {
     font-size:11px;
     height:15px;
     display:block;
+}
+
+#editIcon {
+	float:left;
+}
+
+#addAttrib {
+	text-align:center;
+	font-size: 14px;
 }
 
 #overlay{

@@ -340,10 +340,16 @@ function ClassGraph(){
              "text-align" : "center", "border-bottom": "1px solid black"});
     this.className = className;
     
-    // Add attributes list
-   	// TODO Add ability to add/remove functions
-   	//n.append("<textarea class='attribs' spellcheck='false'>List functions, variables, etc.</textarea>");
-    n.append("<div class='attribs' spellcheck='false'><ul id='sortableFuncs'><li class='ui-state-default'><textarea>item 1</textarea><span class='ui-icon ui-icon-arrowthick-2-n-s'></span></li><li class='ui-state-default'><textarea>item 2</textarea><span class='ui-icon ui-icon-arrowthick-2-n-s'></span></li><li class='ui-state-default'><textarea>item 3</textarea><span class='ui-icon ui-icon-arrowthick-2-n-s'></span></li></ul></div>");
+    // Add attributes list starting with 1 attrib and addAttrib button
+    n.append("<div class='attribs' spellcheck='false'><ul><li class='ui-state-default'><div class='ui-icon ui-icon-help' id='editIcon'></div><textarea id='attrib'></textarea><div class='ui-icon ui-icon-closethick'></div></li><li id='addAttrib'>+</li></ul></div>");
+    
+    // addAttrib behavior
+    // TODO add db entry, load db entry
+    $("#addAttrib").live("mousedown", function() {
+    	// Add new attrib above addAttrib button
+    	$(this).before("<li class='ui-state-default'><div class='ui-icon ui-icon-help' id='editIcon'></div><textarea id='attrib'></textarea><div class='ui-icon ui-icon-closethick'></div></li>");
+    });
+    
     var attribs = $(".node .attribs").last();
     attribs.css("position","absolute");
     attribs.css({"width" : nodeWidth,
