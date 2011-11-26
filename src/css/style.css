@@ -25,10 +25,10 @@ ul li {
     padding:0;
     height:17px;
 }
-ul li textarea {
-	position: absolute;
-	left: 38px;
-    right: 1px;
+#attrib {
+	position: relative;
+	left: 35px;
+	top: -15px;
     resize: none;
     margin:0;
     border: none;
@@ -40,11 +40,6 @@ ul li textarea {
 
 #editIcon {
 	float:left;
-}
-
-#addAttrib {
-	text-align:center;
-	font-size: 14px;
 }
 
 #overlay{

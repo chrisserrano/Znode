@@ -341,13 +341,13 @@ function ClassGraph(){
     this.className = className;
     
     // Add attributes list starting with 1 attrib and addAttrib button
-    n.append("<div class='attribs' spellcheck='false'><ul><li class='ui-state-default'><div class='ui-icon ui-icon-help' id='editIcon'></div><textarea id='attrib'></textarea><div class='ui-icon ui-icon-closethick'></div></li><li id='addAttrib'>+</li></ul></div>");
+    n.append("<div class='attribs' spellcheck='false'><ul><li class='ui-state-default'><div class='ui-icon ui-icon-help' id='editIcon'></div><div class='ui-icon ui-icon-closethick'></div><textarea id='attrib'></textarea></li><li id='addAttrib'>+</li></ul></div>");
     
     // addAttrib behavior
     // TODO add db entry, load db entry
     $("#addAttrib").live("mousedown", function() {
     	// Add new attrib above addAttrib button
-    	$(this).before("<li class='ui-state-default'><div class='ui-icon ui-icon-help' id='editIcon'></div><textarea id='attrib'></textarea><div class='ui-icon ui-icon-closethick'></div></li>");
+    	$(this).before("<li class='ui-state-default'><div class='ui-icon ui-icon-help' id='editIcon'></div><div class='ui-icon ui-icon-closethick'></div><textarea id='attrib'></textarea></li>");
     });
     
     var attribs = $(".node .attribs").last();
