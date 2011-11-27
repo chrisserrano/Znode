@@ -19,8 +19,8 @@ function ClassGraph(){
   var topHeight = $("#controls").height();
   
   // default workspace dimensions
-  var workspaceWidth = 1000;  
-  var workspaceHeight = 1000;
+  var workspaceWidth = 2000;  
+  var workspaceHeight = 2000;
   var paper = new Raphael("classCanvas", workspaceWidth, workspaceHeight);
   
   // Test local storage
@@ -327,41 +327,31 @@ function ClassGraph(){
 	  // TODO info button functionality
 	});
 	
-	// Add class name
-   	n.append("<textarea class='className' spellcheck='false'>Class Name</textarea>");
-    var className = $(".node .className").last();
-    className.css("position","absolute");
-    className.css({"width" : nodeWidth,
-             "height" : "15px",
-             "background-color" : "#AAA", 
-             "padding" : "0", "margin": "0", "border": "none",
-             "resize" : "none", "overflow" : "hidden",
-             "font-size" : "13px", "font-family" : "courier", "font-weight":"bold",
-             "text-align" : "center", "border-bottom": "1px solid black"});
-    this.className = className;
-    
-    // Add attributes list starting with 1 attrib and addAttrib button
-    n.append("<div class='attribs' spellcheck='false'><ul><li class='ui-state-default'><div class='ui-icon ui-icon-help' id='editIcon'></div><div class='ui-icon ui-icon-closethick'></div><textarea id='attrib'></textarea></li><li id='addAttrib'>+</li></ul></div>");
-    
-    // addAttrib behavior
-    // TODO add db entry, load db entry
-    $("#addAttrib").live("mousedown", function() {
-    	// Add new attrib above addAttrib button
-    	$(this).before("<li class='ui-state-default'><div class='ui-icon ui-icon-help' id='editIcon'></div><div class='ui-icon ui-icon-closethick'></div><textarea id='attrib'></textarea></li>");
-    });
-    
-    var attribs = $(".node .attribs").last();
-    attribs.css("position","absolute");
-    attribs.css({"width" : nodeWidth,
-             "height" : nodeHeight - bar.height() - className.height(),
+	// Add div for node data to be loaded from MySQL
+	n.append("<div id=nodeVars class=attribs></div>");
+	var attribs = $(".node .attribs").last();
+	this.attribs = attribs;
+	attribs.css({"width" : nodeWidth,
+             "height" : nodeHeight - bar.height() - 25,
              "background-color" : "#FFF",
-             "top" : bar.height() + className.height(),
+             "top" : bar.height(),
              "padding" : "0", "margin": "0", "border": "none",
              "resize" : "none", "overflow" : "hidden",
              "font-size" : "12px" , "font-family" : "courier",
              "border" : "none"});
-    this.attribs = attribs;
-    
+	
+	// Add form to add new attribs
+	n.append("<div id='addAttrib'></div>");
+	$('#addAttrib').load("addAttrib.html");
+	// Add node attribute
+	function addAttrib(form) {
+		$.post("mySQL/addAttrib.php", {
+			nodeNum: this.id,
+			attribType: form.attribType.value,
+			attribName: form.attribName.value
+		});
+	}
+	
     // Add resizer
     n.append("<div class='resizer' />");
     var resizer = $(".node .resizer").last();
@@ -488,7 +478,7 @@ function ClassGraph(){
     resizer.mousedown(function(e){
       currentNode = curr;
       e.preventDefault();
-      startDrag(resizer, {left : 100, top : 100, right : 500, bottom : 500},
+      startDrag(resizer, {left : 200, top : 100, right : 500, bottom : 500},
       function(){
         var loc = resizer.position();
         var x = loc.left;
@@ -497,8 +487,7 @@ function ClassGraph(){
         // since resizer now has 0 width & height but 5px borders
         n.css({"width" : x + 10 + 1,
                "height" : y + 10 + 1});
-        className.css({"width" : n.width()});
-        attribs.css({"width" : n.width(), "height" : n.height() - bar.height() - className.height() - 5});
+        attribs.css({"width" : n.width(), "height" : n.height() - bar.height() - 25});
         
         positionLeft();
         positionRight();
@@ -565,7 +554,7 @@ function ClassGraph(){
     return new Node(x, y, w, h, noDelete);
   }
   
-  var defaultNodeWidth = 200;
+  var defaultNodeWidth = 220;
   var defaultNodeHeight = 150;
   
   this.addNodeAtMouse = function(){
@@ -585,7 +574,28 @@ function ClassGraph(){
     currentNode = temp;
   }
   defaultNode();
-
+	
+	// load MySQL table data into nodes
+	this.fromTable = function() {
+		for (var i in nodes) {
+			if (window.XMLHttpRequest) {
+			  // code for IE7+, Firefox, Chrome, Opera, Safari
+			  xmlhttp=new XMLHttpRequest();
+			}
+			else {
+			  // code for IE6, IE5
+			  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xmlhttp.onreadystatechange=function() {
+			  if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+			    nodes[i].attribs.append(xmlhttp.responseText);
+			  }
+			}
+			xmlhttp.open("GET","mySQL/getNode.php?file=unsaved&node="+i,true);
+			xmlhttp.send();
+		}
+	}
+	
   // load JSON file
   this.fromJSON = function(data){
     clear();
@@ -593,10 +603,6 @@ function ClassGraph(){
       var n = data.nodes[i];
       var ex = (i == "0") ? true : false;
       var temp = new Node(n.x, n.y, n.width, n.height, ex, n.id);
-      var addreturns = n.className.replace(/\\n/g,'\n');
-      temp.className.val(addreturns);
-      addreturns = n.attribs.replace(/\\n/g,'\n');
-      temp.attribs.val(addreturns);
     }
     for (i in data.connections){
       var c = data.connections[i];
@@ -614,8 +620,6 @@ function ClassGraph(){
       json += '"y" : ' + n.y() + ', ';
       json += '"width" : ' + n.width() + ', ';
       json += '"height" : ' + n.height() + ', ';
-      json += '"className" : "' + addSlashes(n.className.val()) + '", ';
-      json += '"attribs" : "' + addSlashes(n.attribs.val()) + '"},';
     }
     json = json.substr(0, json.length - 1);
     json += '], "connections" : [';

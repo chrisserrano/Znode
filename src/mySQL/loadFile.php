@@ -1,5 +1,8 @@
 <?php
 
+// File name
+$file=$_GET["file"];
+
 // Connect
 $con = mysql_connect('localhost','root');
 if (!$con) {
@@ -7,9 +10,11 @@ if (!$con) {
 }
 mysql_select_db("znode_db", $con);
 
-// Clear out all the nodes
+// Clear unsaved table
+mysql_query("DROP TABLE unsaved");
 
-// Load the table with the given name into the nodes
+// Copy saved table to unsaved 
+mysql_query("CREATE TABLE unsaved SELECT * FROM '".$file."'", $con);
 
 // Disconnect
 mysql_close($con);

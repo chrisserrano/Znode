@@ -43,6 +43,14 @@ $(function(){
       filename[0].focus();
       return;
     }
+    if (name == "unsaved"){
+      alert("Invalid file name: unsaved.  Please choose a different file name.");
+      filename[0].focus();
+      return;
+    }
+    // Save to MySQL database
+    $.post("mySQL/saveFile.php", {file:name});
+    // Save to JSON file
     $.post("json/save.php", {data:classGraph.toJSON(), name:name}, function(data){
       alert("Your file was saved.");
     });
@@ -66,9 +74,10 @@ $(function(){
     openWin.fadeIn();
     fileList.load("json/files.php?"+Math.random()*1000000);
   });
+  
+  // Enter file name box
   var nameMessage = "Enter your file name";
   var filename = $("#filename").val(nameMessage);
-
   filename.focus(function(){
     if ($(this).val() == nameMessage){
       $(this).val("");
@@ -78,24 +87,32 @@ $(function(){
       $(this).val(nameMessage);
     }
   });
-  
   $("#nameForm").submit(function(e){
     e.preventDefault();
     saveFile();
   });
   
+  // Click file to open
   $(".file").live('click', function() {
     var name = $(this).text();
     $.getJSON("files/" + name + ".json", {n:Math.random()}, function(data){
-       classGraph.fromJSON(data);
-       
-       filename.val(name);
+    	// load JSON file
+    	classGraph.fromJSON(data);
+    	// load MySQL table
+    	$.post("mySQL/loadFile.php", {file:name});
+    	// table data can now populate notes
+    	classGraph.fromTable();
+    	// update filename box
+    	filename.val(name);
     });
   }).live('mouseover', function(){
     $(this).css({"background-color": "#ededed"});
   }).live("mouseout", function(){
     $(this).css({"background-color": "white"});
   });
+  
+  // Initially load "unsaved" data
+  classGraph.fromTable();
   
   // Clear All button
   $("#clear").click(function(){

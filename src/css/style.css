@@ -1,3 +1,7 @@
+li {
+	height: 10px;
+}
+
 body, html{
   margin : 0;
   padding : 0;
@@ -12,23 +16,23 @@ body, html{
 	font-size: 12px; font-family: Courier;
 }
 
+
+/* Class name within nodes */
+#className {
+	position : absolute;
+	height : 15px;
+	background-color : #AAA;
+	padding : 0; margin: 0; border: none;
+	resize : none; overflow : hidden;
+	font-size : 13px; font-family : courier; font-weight:bold;
+	text-align : center; border-bottom: 1px solid black;
+}
+             
 /* Function list within nodes */
-ul {
-    margin:0;
-    padding:0;
-    list-style:none;
-    border: none;
-    width:100%;
-}
-ul li {
-    margin:0;
-    padding:0;
-    height:17px;
-}
 #attrib {
 	position: relative;
 	left: 35px;
-	top: -15px;
+	top: -18px;
     resize: none;
     margin:0;
     border: none;
