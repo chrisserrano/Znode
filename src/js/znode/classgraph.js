@@ -342,15 +342,22 @@ function ClassGraph(){
 	
 	// Add form to add new attribs
 	n.append("<div id='addAttrib'></div>");
-	$('#addAttrib').load("addAttrib.html");
+	var addAttrib = $(".node #addAttrib").last();
+	addAttrib.load("addAttrib.html");
+	n.append("<input type='button' id='addAttribBtn' value='+' style='cursor:pointer'></input>");
 	// Add node attribute
-	function addAttrib(form) {
+	this.addAttribBtn = $(".node #addAttribBtn").last();
+	this.addAttribBtn.click(function(){
+		var aType = $(".node #addAttribType").last().val();
+		var aName = $(".node #addAttribName").last().val();
+		// Add MySQL entry
 		$.post("mySQL/addAttrib.php", {
-			nodeNum: this.id,
-			attribType: form.attribType.value,
-			attribName: form.attribName.value
+			// nodeId-1 since nodeId was incremented above
+			nodeNum: nodeId-1,
+			attribType: aType,
+			attribName: aName
 		});
-	}
+	});
 	
     // Add resizer
     n.append("<div class='resizer' />");
@@ -576,7 +583,7 @@ function ClassGraph(){
   defaultNode();
 	
 	// load MySQL table data into nodes
-	this.fromTable = function() {
+	this.fromTable = function(file) {
 		for (var i in nodes) {
 			if (window.XMLHttpRequest) {
 			  // code for IE7+, Firefox, Chrome, Opera, Safari
@@ -591,7 +598,8 @@ function ClassGraph(){
 			    nodes[i].attribs.append(xmlhttp.responseText);
 			  }
 			}
-			xmlhttp.open("GET","mySQL/getNode.php?file=unsaved&node="+i,true);
+			var sql = "mySQL/getNode.php?file="+file+"&node="+i;
+			xmlhttp.open("GET",sql,true);
 			xmlhttp.send();
 		}
 	}
@@ -619,7 +627,7 @@ function ClassGraph(){
       json += '"x" : ' + n.x() + ', ';
       json += '"y" : ' + n.y() + ', ';
       json += '"width" : ' + n.width() + ', ';
-      json += '"height" : ' + n.height() + ', ';
+      json += '"height" : ' + n.height() + '},';
     }
     json = json.substr(0, json.length - 1);
     json += '], "connections" : [';

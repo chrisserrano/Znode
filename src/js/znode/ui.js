@@ -101,7 +101,7 @@ $(function(){
     	// load MySQL table
     	$.post("mySQL/loadFile.php", {file:name});
     	// table data can now populate notes
-    	classGraph.fromTable();
+    	classGraph.fromTable(name);
     	// update filename box
     	filename.val(name);
     });
@@ -110,9 +110,6 @@ $(function(){
   }).live("mouseout", function(){
     $(this).css({"background-color": "white"});
   });
-  
-  // Initially load "unsaved" data
-  classGraph.fromTable();
   
   // Clear All button
   $("#clear").click(function(){

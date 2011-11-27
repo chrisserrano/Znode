@@ -1,11 +1,11 @@
-li {
-	height: 10px;
-}
-
 body, html{
   margin : 0;
   padding : 0;
   background-color : rgb(180,210,240);
+}
+
+li {
+	height: 10px;
 }
 
 /* JQuery UI styles source view */
@@ -40,6 +40,15 @@ body, html{
     font-size:11px;
     height:15px;
     display:block;
+}
+#addAttribType {
+	float: left;
+}
+#addAttribName {
+	float:left;
+}
+#attribBtn {
+	float:left;
 }
 
 #editIcon {

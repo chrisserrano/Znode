@@ -10,6 +10,8 @@ if (!$con) {
 }
 mysql_select_db("znode_db", $con);
 
+// Drop original table first
+mysql_query("DROP TABLE '".$file."'");
 // Copy unsaved table to new table with given name
 mysql_query("CREATE TABLE '".$file."' SELECT * FROM unsaved", $con);
 
