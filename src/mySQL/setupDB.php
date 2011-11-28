@@ -9,8 +9,9 @@ if (!$con) {
 // Create MySQL database if it doesn't exist
 mysql_query("CREATE DATABASE IF NOT EXISTS znode_db", $con);
 
-// Create "unsaved" table if it doesn't exist
 mysql_select_db("znode_db", $con);
+
+// Create "unsaved" table
 $sql = "CREATE TABLE IF NOT EXISTS unsaved
 (
 id int NOT NULL AUTO_INCREMENT, 
@@ -20,6 +21,9 @@ AttribType varchar(1),
 AttribName varchar(32)
 )";
 $result = mysql_query($sql);
+
+// Clear "unsaved" table
+//mysql_query("TRUNCATE TABLE unsaved");
 
 // Disconnect
 mysql_close($con);

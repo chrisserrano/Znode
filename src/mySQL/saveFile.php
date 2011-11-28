@@ -10,10 +10,15 @@ if (!$con) {
 }
 mysql_select_db("znode_db", $con);
 
-// Drop original table first
-mysql_query("DROP TABLE '".$file."'");
+// Drop original table first to overwrite
+mysql_query("DROP TABLE IF EXISTS".$file."");
+
 // Copy unsaved table to new table with given name
-mysql_query("CREATE TABLE '".$file."' SELECT * FROM unsaved", $con);
+if (mysql_query("CREATE TABLE ".$file." SELECT * FROM unsaved", $con)) {
+	echo "Successfully saved";
+} else {
+	echo mysql_error();
+}
 
 // Disconnect
 mysql_close($con);

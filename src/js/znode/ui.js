@@ -48,10 +48,10 @@ $(function(){
       filename[0].focus();
       return;
     }
-    // Save to MySQL database
-    $.post("mySQL/saveFile.php", {file:name});
     // Save to JSON file
-    $.post("json/save.php", {data:classGraph.toJSON(), name:name}, function(data){
+    $.post("json/save.php", {data:classGraph.toJSON(), name:name});
+    // Save to MySQL database
+    $.post("mySQL/saveFile.php", {file:name}, function(data){
       alert("Your file was saved.");
     });
   }
@@ -100,7 +100,7 @@ $(function(){
     	classGraph.fromJSON(data);
     	// load MySQL table
     	$.post("mySQL/loadFile.php", {file:name});
-    	// table data can now populate notes
+    	// table data (now copied to "unsaved") can now populate nodes
     	classGraph.fromTable(name);
     	// update filename box
     	filename.val(name);

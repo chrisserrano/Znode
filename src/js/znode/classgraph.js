@@ -346,18 +346,21 @@ function ClassGraph(){
 	addAttrib.load("addAttrib.html");
 	n.append("<input type='button' id='addAttribBtn' value='+' style='cursor:pointer'></input>");
 	// Add node attribute
-	this.addAttribBtn = $(".node #addAttribBtn").last();
-	this.addAttribBtn.click(function(){
-		var aType = $(".node #addAttribType").last().val();
-		var aName = $(".node #addAttribName").last().val();
+	var addAttribBtn = $(".node #addAttribBtn").last();
+	curr.aType = $(".node #addAttribType").last();
+	curr.aName = $(".node #addAttribName").last();
+	addAttribBtn.click(function(){
+		var aType = curr.aType.val();
+		var aName = curr.aName.val();
+		alert("Added: "+nodeId+" "+aType+" "+aName);
 		// Add MySQL entry
 		$.post("mySQL/addAttrib.php", {
-			// nodeId-1 since nodeId was incremented above
-			nodeNum: nodeId-1,
+			nodeNum: curr.nodeId-1,
 			attribType: aType,
 			attribName: aName
 		});
 	});
+	
 	
     // Add resizer
     n.append("<div class='resizer' />");
@@ -598,7 +601,8 @@ function ClassGraph(){
 			    nodes[i].attribs.append(xmlhttp.responseText);
 			  }
 			}
-			var sql = "mySQL/getNode.php?file="+file+"&node="+i;
+			var sql = "mySQL/getNode.php?file=unsaved&node="+i;
+			alert(sql);
 			xmlhttp.open("GET",sql,true);
 			xmlhttp.send();
 		}

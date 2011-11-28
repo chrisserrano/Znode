@@ -17,7 +17,11 @@ $sql="SELECT * FROM ".$file." WHERE NodeNum = '".$node."' AND AttribType = 'n'";
 $result = mysql_query($sql);
 
 // Echo the node name
-echo "<div class='className' spellcheck='false'>";
+echo "<div id='className' spellcheck='false'>";
+if ($row = mysql_fetch_array($result)) {
+} else{
+	echo mysql_error();
+}
 while($row = mysql_fetch_array($result)) {
   echo $row['AttribName'];
 }
@@ -28,10 +32,9 @@ $sql="SELECT * FROM ".$file." WHERE NodeNum = '".$node."' AND AttribType != 'n'"
 $result = mysql_query($sql);
 
 // Echo the node attribs
-echo "<div class='attribs' spellcheck='false'><ul>";
+echo "<ul>";
 while($row = mysql_fetch_array($result)) {
 	echo "<li class='ui-state-default'>";
-	echo "<div class='ui-icon ui-icon-help' id='editIcon'></div>";
 	echo "<div class='ui-icon ui-icon-closethick'></div>";
 	echo "<div id=attrib>";
 	echo $row['AttribType'];
@@ -40,7 +43,7 @@ while($row = mysql_fetch_array($result)) {
 	echo "</div";
 	echo "</li>";
 }
-echo "</div></ul>";
+echo "</ul>";
 
 // Disconnect
 mysql_close($con);

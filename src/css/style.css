@@ -19,9 +19,7 @@ li {
 
 /* Class name within nodes */
 #className {
-	position : absolute;
 	height : 15px;
-	background-color : #AAA;
 	padding : 0; margin: 0; border: none;
 	resize : none; overflow : hidden;
 	font-size : 13px; font-family : courier; font-weight:bold;
