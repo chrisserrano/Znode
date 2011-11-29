@@ -14,6 +14,11 @@ if (!$con) {
 mysql_select_db("znode_db", $con);
 
 // Insert the attribute
+// Delete an existing name first
+if ($attribType == "n") {
+	mysql_query("DELETE FROM unsaved
+	WHERE NodeNum = '".$nodeNum."' AND AttribType = 'n'");
+}
 mysql_query("INSERT INTO unsaved (NodeNum,AttribType,AttribName)
 VALUES ('".$nodeNum."', '".$attribType."', '".$attribName."')");
 

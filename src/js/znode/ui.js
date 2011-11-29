@@ -146,4 +146,11 @@ $(function(){
   $("#resources").click(function(){
     confirm("This will toggle the resources view.");
   });
+  
+  	// Delete attribute
+	$("#attribDel").click(function(){
+		//$(this).slideUp();
+		alert("here");
+	});
+  
 });

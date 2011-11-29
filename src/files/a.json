@@ -1,0 +1,1 @@
+{"nodes" : [{"id" : 0, "x" : 188, "y" : 353, "width" : 220, "height" : 150},{"id" : 1, "x" : 185, "y" : 530, "width" : 220, "height" : 150},{"id" : 2, "x" : 285, "y" : 722, "width" : 220, "height" : 150}], "connections" : [{"nodeA" : 0, "nodeB" : 1, "conA" : "bottom", "conB" : "top"}]}

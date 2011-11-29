@@ -23,7 +23,7 @@ AttribName varchar(32)
 $result = mysql_query($sql);
 
 // Clear "unsaved" table
-//mysql_query("TRUNCATE TABLE unsaved");
+mysql_query("TRUNCATE TABLE unsaved");
 
 // Disconnect
 mysql_close($con);

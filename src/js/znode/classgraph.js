@@ -352,6 +352,14 @@ function ClassGraph(){
 	var addAttribBtn = $(".node #addAttribBtn").last();
 	this.aType = $(".node #addAttribType").last();
 	this.aName = $(".node #addAttribName").last();
+	
+	// Fix: Getting 1st attrib to show by adding dummy at start
+	$.post("mySQL/addAttrib.php", {
+		nodeNum: this.id,
+		attribType: "x",
+		attribName: ""
+	});
+		
 	// Add attrib button behavior
 	addAttribBtn.click(function(){
 		currentNode = curr;
@@ -610,8 +618,7 @@ function ClassGraph(){
 		}
 		xmlhttp.onreadystatechange=function() {
 		  if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-		  	nodes[i].attribs.html('');
-		    nodes[i].attribs.append(xmlhttp.responseText);
+		  	nodes[i].attribs.html(xmlhttp.responseText);
 		  }
 		}
 		var sql = "mySQL/getNode.php?file=unsaved&node="+i;
