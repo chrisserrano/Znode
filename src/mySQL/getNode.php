@@ -32,6 +32,10 @@ $sql="SELECT * FROM ".$file." WHERE NodeNum = '".$node."' AND AttribType != 'n'"
 $result = mysql_query($sql);
 
 // Echo the node attribs
+if ($row = mysql_fetch_array($result)) {
+} else{
+	echo mysql_error();
+}
 echo "<ul>";
 while($row = mysql_fetch_array($result)) {
 	echo "<li class='ui-state-default'>";

@@ -51,7 +51,7 @@ $(function(){
     // Save to JSON file
     $.post("json/save.php", {data:classGraph.toJSON(), name:name});
     // Save to MySQL database
-    $.post("mySQL/saveFile.php", {file:name}, function(data){
+    $.post("mySQL/saveFile.php?file="+name, function(data){
       alert("Your file was saved.");
     });
   }
@@ -99,7 +99,7 @@ $(function(){
     	// load JSON file
     	classGraph.fromJSON(data);
     	// load MySQL table
-    	$.post("mySQL/loadFile.php", {file:name});
+    	$.post("mySQL/loadFile.php?file="+name);
     	// table data (now copied to "unsaved") can now populate nodes
     	classGraph.fromTable(name);
     	// update filename box

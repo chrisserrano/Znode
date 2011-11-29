@@ -341,24 +341,32 @@ function ClassGraph(){
              "border" : "none"});
 	
 	// Add form to add new attribs
-	n.append("<div id='addAttrib'></div>");
+	n.append("<div id='addAttrib'>");
+	n.append("<select id='addAttribType'></select>");
+	n.append("<input type='text' size='10' maxlength='32' id='addAttribName'>");
+	n.append("</div");
 	var addAttrib = $(".node #addAttrib").last();
-	addAttrib.load("addAttrib.html");
+	$(".node #addAttribType").last().load("addAttribOpt.html");
 	n.append("<input type='button' id='addAttribBtn' value='+' style='cursor:pointer'></input>");
-	// Add node attribute
+	// Add attrib button
 	var addAttribBtn = $(".node #addAttribBtn").last();
-	curr.aType = $(".node #addAttribType").last();
-	curr.aName = $(".node #addAttribName").last();
+	this.aType = $(".node #addAttribType").last();
+	this.aName = $(".node #addAttribName").last();
+	// Add attrib button behavior
 	addAttribBtn.click(function(){
-		var aType = curr.aType.val();
-		var aName = curr.aName.val();
-		alert("Added: "+nodeId+" "+aType+" "+aName);
+		currentNode = curr;
+		var aType = currentNode.aType.val();
+		var aName = currentNode.aName.val();
+		var nodeNum = currentNode.id;
+		alert("Added: "+nodeNum+" "+aType+" "+aName);
 		// Add MySQL entry
 		$.post("mySQL/addAttrib.php", {
-			nodeNum: curr.nodeId-1,
+			nodeNum: nodeNum,
 			attribType: aType,
 			attribName: aName
 		});
+		// Reload node
+		fromTableNode('unsaved',nodeNum);
 	});
 	
 	
@@ -588,24 +596,28 @@ function ClassGraph(){
 	// load MySQL table data into nodes
 	this.fromTable = function(file) {
 		for (var i in nodes) {
-			if (window.XMLHttpRequest) {
-			  // code for IE7+, Firefox, Chrome, Opera, Safari
-			  xmlhttp=new XMLHttpRequest();
-			}
-			else {
-			  // code for IE6, IE5
-			  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-			}
-			xmlhttp.onreadystatechange=function() {
-			  if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-			    nodes[i].attribs.append(xmlhttp.responseText);
-			  }
-			}
-			var sql = "mySQL/getNode.php?file=unsaved&node="+i;
-			alert(sql);
-			xmlhttp.open("GET",sql,true);
-			xmlhttp.send();
+			fromTableNode(file,i);
 		}
+	}
+	function fromTableNode(file,i) {
+		if (window.XMLHttpRequest) {
+		  // code for IE7+, Firefox, Chrome, Opera, Safari
+		  xmlhttp=new XMLHttpRequest();
+		}
+		else {
+		  // code for IE6, IE5
+		  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange=function() {
+		  if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+		  	nodes[i].attribs.html('');
+		    nodes[i].attribs.append(xmlhttp.responseText);
+		  }
+		}
+		var sql = "mySQL/getNode.php?file=unsaved&node="+i;
+		alert(sql);
+		xmlhttp.open("GET",sql,true);
+		xmlhttp.send();
 	}
 	
   // load JSON file

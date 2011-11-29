@@ -33,6 +33,7 @@
 	
 	function addAttrib(form) {
 		$.post("mySQL/addAttrib.php", {
+			nodeNum: 1,
 			attribType: form.attribType.value,
 			attribName: form.attribName.value
 		});
