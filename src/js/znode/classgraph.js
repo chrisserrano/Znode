@@ -311,11 +311,11 @@ function ClassGraph(){
       });
     }
     
-	// Add info (i) button
-	n.append("<div class='info'>i<\/div>");
+	// Add source code button
+	n.append("<div class='info'>S<\/div>");
 	var info = $(".node .info").last();
 	info.css({"position":"absolute","padding-right" : 2, "padding-top" : 1, "padding-left" : 2,
-	        "color" : "white", "font-family" : "serif",
+	        "color" : "white",
 	        "top" : 0, "right": 2, "cursor": "pointer",
 	        "font-size" : "12px", "background-color" : "#333", "z-index" : 100});
 	info.hover(function(){
@@ -323,8 +323,8 @@ function ClassGraph(){
 	}, function(){
 	  info.css("color","white");
 	}).click(function(){
-	  confirm("Info button will reveal more class details (composition & function call views)")
-	  // TODO info button functionality
+	  alert('This will display source code.');
+	  // TODO button functionality
 	});
 	
 	// Add div for node data to be loaded from MySQL
@@ -366,7 +366,6 @@ function ClassGraph(){
 		var aType = currentNode.aType.val();
 		var aName = currentNode.aName.val();
 		var nodeNum = currentNode.id;
-		alert("Added: "+nodeNum+" "+aType+" "+aName);
 		// Add MySQL entry
 		$.post("mySQL/addAttrib.php", {
 			nodeNum: nodeNum,
@@ -376,7 +375,6 @@ function ClassGraph(){
 		// Reload node
 		fromTableNode('unsaved',nodeNum);
 	});
-	
 	
     // Add resizer
     n.append("<div class='resizer' />");
@@ -622,7 +620,6 @@ function ClassGraph(){
 		  }
 		}
 		var sql = "mySQL/getNode.php?file=unsaved&node="+i;
-		alert(sql);
 		xmlhttp.open("GET",sql,true);
 		xmlhttp.send();
 	}

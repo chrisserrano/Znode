@@ -4,9 +4,12 @@ $(function(){
   var classGraph = new ClassGraph();
   // Source code view
   var sourceView = new SourceView();
+  // Function call view
+  var functionView = new FunctionView();
   
   // Default view is inheritance view
   $("#sourceView").hide();
+  $("#functionView").hide();
   
   // JQueryUI Sortable functionality
   $("#sortable").sortable();
@@ -67,6 +70,9 @@ $(function(){
   $("#sourceView").mousedown(function(){
     openWin.fadeOut();
   });
+  $("#functionView").mousedown(function(){
+    openWin.fadeOut();
+  });
   // Show when clicking Open button
   $("#open").click(function(){
     var fileList =  $("#files");
@@ -102,6 +108,8 @@ $(function(){
     	$.post("mySQL/loadFile.php?file="+name);
     	// table data (now copied to "unsaved") can now populate nodes
     	classGraph.fromTable(name);
+    	// Load function view list
+    	functionView.reload();
     	// update filename box
     	filename.val(name);
     });
@@ -135,6 +143,14 @@ $(function(){
   	$("#classCanvas").hide();
   });
   
+  // Function calls view button
+  $("#func").click(function(){
+  	$("#functionView").fadeIn();
+  	$("#sourceView").hide();
+  	$("#classCanvas").hide();
+  });
+  
+  
   // Globals button
   // TODO add globals functionality
   $("#globals").click(function(){
@@ -146,11 +162,5 @@ $(function(){
   $("#resources").click(function(){
     confirm("This will toggle the resources view.");
   });
-  
-  	// Delete attribute
-	$("#attribDel").click(function(){
-		//$(this).slideUp();
-		alert("here");
-	});
   
 });

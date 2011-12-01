@@ -1,0 +1,92 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>functionView Test</title>
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <link rel="stylesheet" href="css/redmond/jquery-ui-1.8.16.custom.css" type="text/css" />
+    <script type="text/javascript" src="js/libs/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="js/libs/jquery-ui-1.8.16.custom.min.js"></script>
+  </head>
+  <body>
+	
+	<script>
+	$(function() {
+		// JQueryUI Accordion
+		$( "#accordion" ).accordion({
+			fillSpace: false
+		});
+		
+		// Manual function array setup
+		var class1 = new Object;
+		var class2 = new Object;
+		var class3 = new Object;
+		class1.name = "class1";
+		class2.name = "class2";
+		class2.name = "class3name";
+		
+		var func1 = new Array("class1","class2");
+		var func2 = new Array("class3name","class2");
+		
+		class1['func1'] = func1;
+		class2['func1'] = func1;
+		class2['func2'] = func2;
+		class3['func2'] = func2;
+		
+		// Overall object
+		var classes = new Object;
+		classes['class1'] = class1;
+		classes['class2'] = class2;
+		classes['class3'] = class3;
+		
+		// Iterate through
+		for (var c in classes) {
+			$("#test").append("<div id=loadClass>"+classes[c].name+"</div>");
+		}
+		for (var c in classes) {
+			for (var i in classes[c]){
+				if (i != "name") {
+					for (var j in classes[c][i]){
+						$("#test").append("<br>");
+						$("#test").append(i+" ");
+						$("#test").append(j+" ");
+						$("#test").append(classes[c][i][j]);
+					}
+				}
+			}
+		}
+		
+		$("#loadClass").click(function(){
+			$(this).css({"color":"blue"});
+			//$("#test").append("Loading: "+className);
+		});
+		
+	});
+	</script>
+	
+	<div id="test"></div>
+<!--
+<div id="funcList">
+	<ul><li>test</li></ul>
+</div>
+
+<div style="padding:10px; width:500px; height:500px;">
+	
+	<div id="accordion">
+		<h3><a href="#">Func 1</a></h3>
+		<div>
+			here, here...<p>a<p>a<p>a<p>a<p>a<p>a<p>a<p>
+		</div>
+		<h3><a href="#">Func 2</a></h3>
+		<div>
+			there, there...
+		</div>
+		<h3><a href="#">Func 3</a></h3>
+		<div>
+			here
+		</div>
+	</div>
+	
+</div>-->
+
+</body>
+</html>
