@@ -4,10 +4,6 @@ body, html{
   background-color : rgb(180,210,240);
 }
 
-li {
-	height: 10px;
-}
-
 /* JQuery UI styles source view */
 #sortable { position:absolute; top: 100px; list-style-type: none; margin: 0; padding: 0; }
 #sortable > div { float: left; }
@@ -160,7 +156,8 @@ ul{
   background-color : white;
 }
 li{
-  list-style : none;
+	height: 10px;
+	list-style : none;
 }
 li, .file {
   font-size : 12px;

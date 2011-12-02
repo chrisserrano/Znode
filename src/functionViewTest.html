@@ -11,82 +11,61 @@
 	
 	<script>
 	$(function() {
-		// JQueryUI Accordion
-		$( "#accordion" ).accordion({
-			fillSpace: false
-		});
+		
 		
 		// Manual function array setup
 		var class1 = new Object;
 		var class2 = new Object;
 		var class3 = new Object;
-		class1.name = "class1";
-		class2.name = "class2";
-		class2.name = "class3name";
 		
-		var func1 = new Array("class1","class2");
-		var func2 = new Array("class3name","class2");
+		var func1 = new Array("c1","c2");
+		var func2 = new Array("c2","c3");
+		var funcs = new Object;
+		funcs['func1'] = func1;
+		funcs['func2'] = func2;
 		
 		class1['func1'] = func1;
 		class2['func1'] = func1;
 		class2['func2'] = func2;
 		class3['func2'] = func2;
 		
-		// Overall object
 		var classes = new Object;
 		classes['class1'] = class1;
 		classes['class2'] = class2;
 		classes['class3'] = class3;
 		
-		// Iterate through
+		// Add class names
 		for (var c in classes) {
-			$("#test").append("<div id=loadClass>"+classes[c].name+"</div>");
+			$("#classList").append("<h4>"+c+"</h4>");
 		}
-		for (var c in classes) {
-			for (var i in classes[c]){
-				if (i != "name") {
-					for (var j in classes[c][i]){
-						$("#test").append("<br>");
-						$("#test").append(i+" ");
-						$("#test").append(j+" ");
-						$("#test").append(classes[c][i][j]);
-					}
-				}
+		$("#classList h4").click(function(){
+			var className = $(this).html();
+			$("#funcList").html("");
+			for (var f in classes[className]){
+				// Add functions for that class
+				$("#funcList").append("<h5>"+f+"</h5>");
 			}
-		}
-		
-		$("#loadClass").click(function(){
-			$(this).css({"color":"blue"});
-			//$("#test").append("Loading: "+className);
+			readyFuncList();
 		});
+		
+		function readyFuncList(){
+			$("#funcList h5").click(function(){
+				var funcName = $(this).html();
+				$("#funcUseList").html("<ul>");
+				for (var i in funcs[funcName]){
+					// Add where functions are called
+					$("#funcUseList").append("<li>"+funcs[funcName][i]+"</li>");
+				}
+				$("#funcUseList").append("</ul>");
+			});
+		};
 		
 	});
 	</script>
 	
-	<div id="test"></div>
-<!--
-<div id="funcList">
-	<ul><li>test</li></ul>
-</div>
-
-<div style="padding:10px; width:500px; height:500px;">
+<div id="classList"></div>
+<div id="funcList"><h5>Click class to see its function list.</h5></div>
+<div id="funcUseList">Click function to see where it is used.</div>
 	
-	<div id="accordion">
-		<h3><a href="#">Func 1</a></h3>
-		<div>
-			here, here...<p>a<p>a<p>a<p>a<p>a<p>a<p>a<p>
-		</div>
-		<h3><a href="#">Func 2</a></h3>
-		<div>
-			there, there...
-		</div>
-		<h3><a href="#">Func 3</a></h3>
-		<div>
-			here
-		</div>
-	</div>
-	
-</div>-->
-
 </body>
 </html>

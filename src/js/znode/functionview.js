@@ -1,4 +1,21 @@
 function FunctionView(){
+	
+	// jQuery Ninja expanding tree
+	$('#funcTree ul')
+    .hide()
+    .prev('span')
+    .before('<span></span>')
+    .prev()
+    .addClass('handle closed')
+    .click(function(){
+      // plus/minus handle click
+      $(this)
+        .toggleClass('closed opened')
+        .nextAll('ul')
+        .toggle();
+    });
+    /*
+	
 	var win = $(window);
 	var view = $("#functionView");
 
@@ -30,5 +47,5 @@ function FunctionView(){
 		var sql = "mySQL/getFuncList.php";
 		xmlhttp.open("GET",sql,true);
 		xmlhttp.send();
-	}
+	}*/
 }
