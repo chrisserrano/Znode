@@ -1,51 +1,33 @@
-function FunctionView(){
-	
-	// jQuery Ninja expanding tree
-	$('#funcTree ul')
-    .hide()
-    .prev('span')
-    .before('<span></span>')
-    .prev()
-    .addClass('handle closed')
-    .click(function(){
-      // plus/minus handle click
-      $(this)
-        .toggleClass('closed opened')
-        .nextAll('ul')
-        .toggle();
-    });
-    /*
-	
-	var win = $(window);
-	var view = $("#functionView");
-
-	// Set up function view layout
-	view.css({"height": win.height(), "width": win.width()});
-	view.append("<div id=funcList></div>");
-	var funcList = $("#funcList");
-	funcList.css({"float": "left", "height": "100%", "width": "500px", "background-color": "gray"});
-	
-	view.append("<div id=funcDisplay></div>");
-	var funcDisplay = $("#funcDisplay");
-	funcDisplay.css({"float": "left", "height": "100%", "width": "500px", "background-color": "white"});
+function FunctionView(dataObj){
 	
 	this.reload = function() {
-		
-		if (window.XMLHttpRequest) {
-		  // code for IE7+, Firefox, Chrome, Opera, Safari
-		  xmlhttp=new XMLHttpRequest();
+		// Add class names
+		$("#classList").html("List of classes in project:");
+		$("#funcList").html("<h5>Choose class to see its function list.</h5>");
+		$("#funcUseList").html("<h5>Choose a function to see where it is used.</h5>");
+		for (var c in dataObj.classes) {
+			$("#classList").append("<h4>"+c+"</h4>");
 		}
-		else {
-		  // code for IE6, IE5
-		  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange=function() {
-		  if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-		  	funcList.html(xmlhttp.responseText);
-		  }
-		}
-		var sql = "mySQL/getFuncList.php";
-		xmlhttp.open("GET",sql,true);
-		xmlhttp.send();
-	}*/
+		$("#classList h4").click(function(){
+			var className = $(this).html();
+			$("#funcList").html("Functions of: "+c);
+			for (var f in dataObj.classes[className]){
+				// Add functions for that class
+				$("#funcList").append("<h4>"+f+"</h4>");
+			}
+			readyFuncList();
+		});
+	};
+	
+	function readyFuncList(){
+		$("#funcList h4").click(function(){
+			var funcName = $(this).html();
+			$("#funcUseList").html(funcName+" is called in the following classes:");
+			for (var i in dataObj.funcs[funcName]){
+				// Add where functions are called
+				$("#funcUseList").append("<h4>"+dataObj.funcs[funcName][i]+"</h4>");
+			}
+		});
+	};
+	
 }

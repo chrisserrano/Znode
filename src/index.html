@@ -12,6 +12,7 @@
     <script type="text/javascript" src="js/znode/sourceview.js"></script>
     <script type="text/javascript" src="js/znode/functionview.js"></script>
     <script type="text/javascript" src="js/znode/ui.js"></script>
+    <script type="text/javascript" src="js/znode/data.js"></script>
     <script type="text/javascript" src="mySQL/init.js"></script>
   </head>
   <body>
@@ -34,7 +35,7 @@
 	      </div>
 	      <div id="inheritance" class="btn">Inheritance</div>
 	      <div id="source" class="btn">Source</div>
-	      <div id="func" class="btn">Functions</div>
+	      <div id="func" class="btn">Function Calls</div>
 	      <div id="globals" class="btn">Globals</div>
 	      <div id="resources" class="btn">Resources</div>
 	    </div>
@@ -48,7 +49,12 @@
 			<div id="sourceBox" class="ui-state-default">File3</div>
 		</div>
     </div>
-    <div id="functionView"></div>
+    <div id="functionView">
+    	<div id="classList" class="listBox"></div>
+		<div id="funcList" class="listBox"></div>
+		<div id="funcUseList" class="listBox"></div>
+    </div>
+    <div id="sourcePop"></div>
   </body>
 </html>
   

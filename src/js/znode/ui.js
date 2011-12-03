@@ -2,12 +2,15 @@ $(function(){
   
   // Inheritance view
   var classGraph = new ClassGraph();
+  dataObj = classGraph.dataObj; // localStorage data
   // Source code view
   var sourceView = new SourceView();
   // Function call view
-  var functionView = new FunctionView();
+  var functionView = new FunctionView(dataObj);
+  functionView.reload();
   
-  // Default view is inheritance view
+  // Default view is node view
+  $("#sourcePop").hide();
   $("#sourceView").hide();
   $("#functionView").hide();
   
@@ -53,6 +56,7 @@ $(function(){
     }
     // Save to JSON file
     $.post("json/save.php", {data:classGraph.toJSON(), name:name});
+    $.post("json/saveStruct.php", {data:dataObj.save(), name:name});
     // Save to MySQL database
     $.post("mySQL/saveFile.php?file="+name, function(data){
       alert("Your file was saved.");
@@ -113,6 +117,9 @@ $(function(){
     	// update filename box
     	filename.val(name);
     });
+    $.getJSON("files/structs/" + name + ".json", function(data){
+       	dataObj.load(data);
+    });
   }).live('mouseover', function(){
     $(this).css({"background-color": "#ededed"});
   }).live("mouseout", function(){
@@ -135,12 +142,14 @@ $(function(){
   $("#inheritance").click(function(){
   	$("#classCanvas").fadeIn();
   	$("#sourceView").hide();
+  	$("#functionView").hide();
   });
   
   // Source code view button
   $("#source").click(function(){
   	$("#sourceView").fadeIn();
   	$("#classCanvas").hide();
+  	$("#functionView").hide();
   });
   
   // Function calls view button

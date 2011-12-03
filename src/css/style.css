@@ -4,6 +4,25 @@ body, html{
   background-color : rgb(180,210,240);
 }
 
+#sourcePop{
+	position: absolute;
+	top: 100px;
+	left: 100px;
+}
+
+/* Function call view */
+.listBox {
+	float: left;
+	width: 25%;
+	margin: 10px; padding: 15px;
+	border: 1px solid gray;
+	background-color: rgba(255,255,255,0.5);
+}
+#functionView {
+	position: relative;
+	top: 45px;
+}
+
 /* JQuery UI styles source view */
 #sortable { position:absolute; top: 100px; list-style-type: none; margin: 0; padding: 0; }
 #sortable > div { float: left; }

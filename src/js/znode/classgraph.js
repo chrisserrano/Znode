@@ -17,14 +17,16 @@ function ClassGraph(){
   var key = {};
   var SHIFT = 16;
   var topHeight = $("#controls").height();
+  var source = $("sourcePop");
+  
+  // Data structure
+  var dataObj = new Data();
+  this.dataObj = dataObj;
   
   // default workspace dimensions
   var workspaceWidth = 2000;  
   var workspaceHeight = 2000;
   var paper = new Raphael("classCanvas", workspaceWidth, workspaceHeight);
-  
-  // Test local storage
-  localStorage.test = "local storage text";
   
   // Resizing of the canvas
   //function resizePaper(){
@@ -323,9 +325,12 @@ function ClassGraph(){
 	}, function(){
 	  info.css("color","white");
 	}).click(function(){
-	  alert('This will display source code.');
-	  // TODO button functionality
+		loadSource(curr);
+		source.show();
 	});
+	function loadSource(currentNode){
+		alert("source");
+	}
 	
 	// Add div for node data to be loaded from MySQL
 	n.append("<div id=nodeVars class=attribs></div>");
