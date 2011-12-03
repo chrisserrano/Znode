@@ -10,9 +10,7 @@ $(function(){
   functionView.reload();
   
   // Default view is node view
-  $("#sourcePop").hide();
-  $("#sourceView").hide();
-  $("#functionView").hide();
+  $("#sourcePop,#sourceView,#functionView,#globalsView").hide();
   
   // JQueryUI Sortable functionality
   $("#sortable").sortable();
@@ -68,13 +66,8 @@ $(function(){
   // Hide Open at startup
   openWin.hide();
   // Hide when clicking elsewhere on the canvasses
-  $("#classCanvas").mousedown(function(){
-    openWin.fadeOut();
-  });
-  $("#sourceView").mousedown(function(){
-    openWin.fadeOut();
-  });
-  $("#functionView").mousedown(function(){
+  $("#classCanvas,#sourceView,#functionView,#globalsView")
+  .mousedown(function(){
     openWin.fadeOut();
   });
   // Show when clicking Open button
@@ -141,29 +134,26 @@ $(function(){
   // Inheritance view button
   $("#inheritance").click(function(){
   	$("#classCanvas").fadeIn();
-  	$("#sourceView").hide();
-  	$("#functionView").hide();
+  	$("#sourceView,#functionView,#globalsView").hide();
   });
   
   // Source code view button
   $("#source").click(function(){
   	$("#sourceView").fadeIn();
-  	$("#classCanvas").hide();
-  	$("#functionView").hide();
+  	$("#classCanvas,#functionView,#globalsView").hide();
   });
   
   // Function calls view button
   $("#func").click(function(){
   	$("#functionView").fadeIn();
-  	$("#sourceView").hide();
-  	$("#classCanvas").hide();
+  	$("#sourceView,#classCanvas,#globalsView").hide();
   });
   
   
-  // Globals button
-  // TODO add globals functionality
+  // Globals view
   $("#globals").click(function(){
-    confirm("This will toggle the global variables view.");
+    $("#globalsView").fadeIn();
+  	$("#sourceView,#classCanvas,#functionView").hide();
   });
   
   // Resources button

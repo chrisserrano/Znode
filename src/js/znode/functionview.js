@@ -1,5 +1,7 @@
 function FunctionView(dataObj){
 	
+
+	
 	this.reload = function() {
 		// Add class names
 		$("#classList").html("List of classes in project:");
@@ -22,11 +24,47 @@ function FunctionView(dataObj){
 	function readyFuncList(){
 		$("#funcList h4").click(function(){
 			var funcName = $(this).html();
+			var funcArr = dataObj.funcs[funcName];
+			// List where this function is called
+			listUses(funcName, funcArr);
+			// Add "add" box
+			$("#funcViewAdd").html("<p>Add a new entry for where this function is used: ");
+			$("#funcViewAdd").append("<input type='text' size='16' maxlength='32' id='funcViewAddTxt'>");
+			$("#funcViewAdd").append("<input type='button' id='funcViewAddBtn' value='+' style='cursor:pointer'></input>");
+			
+			$("#funcViewAddBtn").click(function(){
+				var entry = $("#funcViewAddTxt").val();
+				// Check for entry in array
+				if (funcArr.indexOf(entry) == -1) {
+					// Add entry
+					funcArr.push(entry);
+					// Reload uses
+					listUses(funcName, funcArr);
+				}
+			});
+		});
+	};
+	
+	function listUses(funcName,funcArr) {
+		if (funcArr.length == 0) {
+			$("#funcUseList").html("No entries for where "+funcName+" is used.");
+		} else {
 			$("#funcUseList").html(funcName+" is called in the following classes:");
-			for (var i in dataObj.funcs[funcName]){
-				// Add where functions are called
-				$("#funcUseList").append("<h4>"+dataObj.funcs[funcName][i]+"</h4>");
+			for (var i in funcArr){
+				$("#funcUseList").append("<p>");
+				// Remove button
+				$("#funcUseList").append("<input type='button' id='funcViewDelBtn' value='X' style='cursor:pointer'></input>");
+				// Use entry
+				$("#funcUseList").append("<span>"+funcArr[i]+"</span>");
 			}
+		}
+		$("#funcUseList input").click(function(){
+			var entry = $(this).next().html();
+			var index = funcArr.indexOf(entry);
+			// perform deletion
+			funcArr.splice(index,1);
+			// reload uses
+			listUses(funcName,funcArr);
 		});
 	};
 	
