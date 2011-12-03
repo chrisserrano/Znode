@@ -1,1 +1,1 @@
-{"classes":{"class1":{"func1":["test"]},"class2":{"func1":["test"],"func2":["c2","c3"]}},"funcs":{"func1":["test"],"func2":["c2","c3"]}}
+{"classes":{"class1":{"func1":["c1","c2"]},"class2":{"func1":["c1","c2"],"func2":["c2","c3"]}},"funcs":{"func1":["c1","c2","test"],"func2":["c2","c3"]},"globals":{"global1":{"init":"bb","declared":"aa","changes":["c1","c2","vv"],"used":["c3","c4","xx"]}}}

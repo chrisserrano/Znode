@@ -11,6 +11,9 @@
     <script type="text/javascript" src="js/znode/classgraph.js"></script>
     <script type="text/javascript" src="js/znode/sourceview.js"></script>
     <script type="text/javascript" src="js/znode/functionview.js"></script>
+    <script type="text/javascript" src="js/znode/globalsview.js"></script>
+    <script type="text/javascript" src="js/znode/resourceview.js"></script>
+    <script type="text/javascript" src="js/znode/compview.js"></script>
     <script type="text/javascript" src="js/znode/ui.js"></script>
     <script type="text/javascript" src="js/znode/data.js"></script>
     <script type="text/javascript" src="mySQL/init.js"></script>
@@ -35,6 +38,7 @@
 	      </div>
 	      <div id="inheritance" class="btn">Inheritance</div>
 	      <div id="source" class="btn">Source</div>
+	      <div id="source" class="btn">Composition</div>
 	      <div id="func" class="btn">Function Calls</div>
 	      <div id="globals" class="btn">Globals</div>
 	      <div id="resources" class="btn">Resources</div>
@@ -50,7 +54,7 @@
 			<div id="sourceBox" class="ui-state-default">File3</div>
 		</div>
     </div>
-    <div id="functionView">
+    <div id="functionView" class="viewContainer">
     	<div id="classList" class="listBox"></div>
 		<div id="funcList" class="listBox"></div>
 		<div class="listBox">
@@ -58,11 +62,13 @@
 			<div id="funcViewAdd"></div>
 		</div>
     </div>
-    <div id="globalsView">
+    <div id="globalsView" class="viewContainer">
     	<div id="globalsList" class="listBox"></div>
-		<div class="listBox">
-			<div id="globalsUseList"></div>
-			<div id="globalsViewAdd"></div>
+		<div id="globalsUseList" class="listBox">
+			<div id="declared"></div>
+			<div id="init"></div>
+			<div id="changes"></div>
+			<div id="used"></div>
 		</div>
     </div>    
   </body>

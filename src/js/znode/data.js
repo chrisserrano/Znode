@@ -29,24 +29,25 @@ function Data(){
 	class1b.compFuncs = compFuncs;
 	class1b.compVars = compVars;
 	comps['class1'] = class1b;
-	//alert("here");
-	/*
+	
 	// Inheritence view
-	classes['class1'].supers['class1super'].vars = new Array("v1","v2");
-	classes['class1'].subs = new Array("sub1","sub2");
+	//classes['class1'].supers['class1super'].vars = new Array("v1","v2");
+	//classes['class1'].subs = new Array("sub1","sub2");
 	
 	// Globals view
 	var globals = new Object();
-	globals['global1'].initialized = "class1 line 10";
-	globals['global1'].declared = "class1 line 11";
-	globals['global1'].changes = new Array("c1","c2");
-	globals['global1'].used = new Array("c3","c4");
+	var global1 = new Object();
+	global1.init = "class1 line 10";
+	global1.declared = "class1 line 11";
+	global1.changes = new Array("c1","c2");
+	global1.used = new Array("c3","c4");
+	globals['global1'] = global1;
 	
 	// Resources view
-	var resources = new Object();
-	resources['resource1'].used = new Array("c1","c2");
-	resources['resource1'].url = "./test/resource1.jpg";
-	*/
+	//var resources = new Object();
+	//resources['resource1'].used = new Array("c1","c2");
+	//resources['resource1'].url = "./test/resource1.jpg";
+	
 	this.classes = classes;
 	this.funcs = funcs;
 	this.globals = globals;
@@ -62,17 +63,26 @@ function Data(){
 		var saveStruct = new Object();
 		saveStruct.classes = this.classes;
 		saveStruct.funcs = this.funcs;
-		//saveStruct.globals = this.globals;
+		saveStruct.globals = this.globals;
 		//saveStruct.resources = this.resources;
 		//saveStruct.comps = this.comps;
 		var myJSONText = JSON.stringify(saveStruct);
 		return myJSONText;
-		alert("here");
 	}
 	
 	this.load = function(data){
 		this.classes = data.classes;
 		this.funcs = data.funcs;
-		//TODO...
+		this.globals = data.globals;
+		//this.resources = data.resources;
+		//this.comps = data.comps;
+	}
+	
+	this.clearAll = function(){
+		this.classes = new Object();
+		this.funcs = new Object();
+		this.globals = new Object();
+		this.resources = new Object();
+		this.comps = new Object();
 	}
 }

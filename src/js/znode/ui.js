@@ -8,6 +8,9 @@ $(function(){
   // Function call view
   var functionView = new FunctionView(dataObj);
   functionView.reload();
+  // Global variables view
+  var globalsView = new GlobalsView(dataObj);
+  globalsView.reload();
   
   // Default view is node view
   $("#sourcePop,#sourceView,#functionView,#globalsView").hide();
@@ -105,8 +108,9 @@ $(function(){
     	$.post("mySQL/loadFile.php?file="+name);
     	// table data (now copied to "unsaved") can now populate nodes
     	classGraph.fromTable(name);
-    	// Load function view list
+    	// Reload views
     	functionView.reload();
+    	globalsView.reload();
     	// update filename box
     	filename.val(name);
     });
@@ -123,6 +127,9 @@ $(function(){
   $("#clear").click(function(){
   	if (confirm("Clear all contents?")) {
     	classGraph.clearAll();
+    	dataObj.clearAll();
+    	functionView.reload();
+    	globalsView.reload();
   	}
   });
   
