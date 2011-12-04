@@ -1,10 +1,8 @@
 $(function(){
   
-  // Inheritance view
-  var classGraph = new ClassGraph();
-  dataObj = classGraph.dataObj; // localStorage data
   // Source code view
   var sourceView = new SourceView();
+  dataObj = sourceView.dataObj;
   // Function call view
   var functionView = new FunctionView(dataObj);
   functionView.reload();
@@ -12,23 +10,18 @@ $(function(){
   var globalsView = new GlobalsView(dataObj);
   globalsView.reload();
   
-  // Default view is node view
-  $("#sourcePop,#sourceView,#functionView,#globalsView").hide();
-  
-  // JQueryUI Sortable functionality
-  $("#sortable").sortable();
-  $("#sortable").disableSelection();
-  $("#sortableFuncs").sortable();
+  // Default view is source view
+  $("#inheritView,#functionView,#globalsView").hide();
   
   // Create a new node when clicking on canvas
   // Only for inheritance view
-  $("#classCanvas").mousedown(function(e){
+  $("#classCanvas").click(function(e){
      if (openWin.css("display") == "none"){
        var children = $(e.target).children();
        if (children.length > 0){
          var type = children[0].tagName;
          if (type == "desc" || type == "SPAN"){
-           classGraph.addNodeAtMouse();
+           sourceView.addNodeAtMouse();
          }
        }
      }
@@ -55,13 +48,13 @@ $(function(){
       filename[0].focus();
       return;
     }
-    // Save to JSON file
-    $.post("json/save.php", {data:classGraph.toJSON(), name:name});
+    // save node positions to JSON
+    $.post("json/save.php", {data:sourceView.toJSON(), name:name});
+    // save code changes in nodes to data object
+    sourceView.saveCode();
+    // save everything else
     $.post("json/saveStruct.php", {data:dataObj.save(), name:name});
-    // Save to MySQL database
-    $.post("mySQL/saveFile.php?file="+name, function(data){
-      alert("Your file was saved.");
-    });
+    alert("Your file was saved.");
   }
   
   // Open window
@@ -69,7 +62,7 @@ $(function(){
   // Hide Open at startup
   openWin.hide();
   // Hide when clicking elsewhere on the canvasses
-  $("#classCanvas,#sourceView,#functionView,#globalsView")
+  $("#classCanvas,#sourceView,#inheritView,#functionView,#globalsView")
   .mousedown(function(){
     openWin.fadeOut();
   });
@@ -101,22 +94,19 @@ $(function(){
   // Click file to open
   $(".file").live('click', function() {
     var name = $(this).text();
-    $.getJSON("files/" + name + ".json", {n:Math.random()}, function(data){
-    	// load JSON file
-    	classGraph.fromJSON(data);
-    	// load MySQL table
-    	$.post("mySQL/loadFile.php?file="+name);
-    	// table data (now copied to "unsaved") can now populate nodes
-    	classGraph.fromTable(name);
-    	// Reload views
-    	functionView.reload();
-    	globalsView.reload();
-    	// update filename box
-    	filename.val(name);
-    });
     $.getJSON("files/structs/" + name + ".json", function(data){
+    	// load JSON file, class info
        	dataObj.load(data);
     });
+    $.getJSON("files/" + name + ".json", {n:Math.random()}, function(data){
+    	// load JSON file, node info
+    	sourceView.fromJSON(data);
+    });
+	// Reload views
+	functionView.reload();
+	globalsView.reload();
+	// update filename box
+	filename.val(name);
   }).live('mouseover', function(){
     $(this).css({"background-color": "#ededed"});
   }).live("mouseout", function(){
@@ -126,7 +116,7 @@ $(function(){
   // Clear All button
   $("#clear").click(function(){
   	if (confirm("Clear all contents?")) {
-    	classGraph.clearAll();
+    	sourceView.clearAll();
     	dataObj.clearAll();
     	functionView.reload();
     	globalsView.reload();
@@ -140,33 +130,38 @@ $(function(){
   
   // Inheritance view button
   $("#inheritance").click(function(){
-  	$("#classCanvas").fadeIn();
-  	$("#sourceView,#functionView,#globalsView").hide();
+  	$("#inheritView").fadeIn();
+  	$("#classCanvas,#functionView,#globalsView").hide();
   });
   
   // Source code view button
   $("#source").click(function(){
-  	$("#sourceView").fadeIn();
-  	$("#classCanvas,#functionView,#globalsView").hide();
+  	$("#classCanvas").fadeIn();
+  	$("#inheritView,#functionView,#globalsView").hide();
   });
   
   // Function calls view button
   $("#func").click(function(){
   	$("#functionView").fadeIn();
-  	$("#sourceView,#classCanvas,#globalsView").hide();
+  	$("#inheritView,#classCanvas,#globalsView").hide();
   });
-  
   
   // Globals view
   $("#globals").click(function(){
     $("#globalsView").fadeIn();
-  	$("#sourceView,#classCanvas,#functionView").hide();
+  	$("#inheritView,#classCanvas,#functionView").hide();
   });
   
-  // Resources button
+  // Composition view button
+  // TODO add resources functionality
+  $("#comp").click(function(){
+    
+  });
+  
+  // Resources view button
   // TODO add resources functionality
   $("#resources").click(function(){
-    confirm("This will toggle the resources view.");
+  	
   });
   
 });
