@@ -1,7 +1,25 @@
 body, html {
   margin : 0;
   padding : 0;
+  overflow : hidden;
   background-color : rgb(180,210,240);
+}
+
+#scrollPane {
+	position: absolute;
+	left: 30%;
+	right: 30%;
+	height: 1px;
+	padding: 10px;
+	z-index: 9000;
+	box-shadow: 0px 2px 8px rgba(0,0,0,0.5);
+	border-radius: 15px;
+	border: 2px solid #555;
+	background-image: -webkit-gradient(linear, left center, right center, from(#D98736), to(#D98736), color-stop(.5,#DDD));
+}
+
+#classCanvas {
+	overflow: hidden;
 }
 
 #sourcePop {

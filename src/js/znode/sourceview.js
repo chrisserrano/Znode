@@ -18,6 +18,7 @@ function SourceView(){
   var SHIFT = 16;
   var topHeight = $("#controls").height();
   var classList = $("#classListSrc");
+  var opacScale = 0.7;
   
   // Data structure
   var dataObj = new Data();
@@ -26,14 +27,11 @@ function SourceView(){
   // Hide class selection box
   classList.hide();
   
-  // default workspace dimensions
-  var workspaceWidth = 2000;  
-  var workspaceHeight = 2000;
-  var paper = new Raphael("classCanvas", workspaceWidth, workspaceHeight);
+  var paper = new Raphael("classCanvas", "100", "100");
   
   // Resizing of the canvas
   function resizePaper(){
-    paper.setSize(workspaceWidth, win.height() - topHeight);
+    paper.setSize(win.width(), win.height() - topHeight);
   }
   win.resize(resizePaper);
   resizePaper();
@@ -235,11 +233,39 @@ function SourceView(){
         if (y > bounds.bottom) y = bounds.bottom;
       }
       element.css("left", x).css("top",y);
+      
+      // set opacity needs to be duplicated here since function call doesn't work
+      var opac = 1 - Math.pow((element.position().left / win.width()), 2);
+	  opac += 1 - Math.pow(((win.width()-element.position().left-element.width()) / win.width()), 2);
+	  opac = opac*opacScale;
+	  element.css("opacity", opac);
+	  
       dragCallback();
     },topHeight);
     loops.push(id);
   }
   
+  function startScroll(element, dragCallback){
+    showOverlay();
+    var startX = win.width() / 2;
+    if (!dragCallback) dragCallback = function(){};
+      var id = setInterval(function(){
+      var speedX = startX - mouseX;
+      var scale = 0.1;
+      var newX = element.position().left - Math.round(speedX*scale);
+      
+      // reposition
+      element.css("left", newX);
+      // adjust opacity
+      var opac = 1 - Math.pow((element.position().left / win.width()), 2);
+      opac += 1 - Math.pow(((win.width()-element.position().left-element.width()) / win.width()), 2);
+      opac = opac*opacScale;
+      element.css("opacity", opac);
+      
+      dragCallback();
+    },topHeight);
+    loops.push(id);
+  }
   
   function Node(xp, yp, w, h, noDelete, forceId){
     
@@ -268,6 +294,14 @@ function SourceView(){
            "background-color" : "white",
            "box-shadow" : "0px 2px 5px rgba(0,0,0,0.75)"});
     n.css("z-index", zindex++);
+    setOpacity(n);
+        
+    function setOpacity(thisNode) {
+	    var opac = 1 - Math.pow((thisNode.position().left / win.width()), 2);
+	    opac += 1 - Math.pow(((win.width()-thisNode.position().left-thisNode.width()) / win.width()), 2);
+	    opac = opac*opacScale;
+	    thisNode.css("opacity", opac);
+    }
            
     this.content = n;
     
@@ -330,7 +364,7 @@ function SourceView(){
 		"height" : n.height()-bar.height()-12});
 	
 	// Add load class button
-	n.append("<div class='load'>Class:<\/div>");
+	n.append("<div class='load'>File:<\/div>");
 	var load = $(".node .load").last();
 	load.css({"position":"absolute","padding-right" : 2, "padding-top" : 1, "padding-left" : 2,
 	        "color" : "white",
@@ -365,7 +399,7 @@ function SourceView(){
 		})
 		// Create a new class
 		$("#classListSrc .newClass").click(function(){
-			var name = prompt("Enter a name for the new class:");
+			var name = prompt("Enter a name for the new file:");
 			if (name) {
 				curr.bar.html(name);
 				dataObj.classes[name] = new Object();
@@ -501,7 +535,7 @@ function SourceView(){
     resizer.mousedown(function(e){
       currentNode = curr;
       e.preventDefault();
-      startDrag(resizer, {left : 150, top : 100, right : 1000, bottom : 1000},
+      startDrag(resizer, {left : 100, top : 100, right : 1000, bottom : 1000},
       function(){
         var loc = resizer.position();
         var x = loc.left;
@@ -525,8 +559,16 @@ function SourceView(){
       currentNode = curr;
       n.css("z-index", zindex++);
       e.preventDefault();
-      startDrag(n, {left : 10, top: 40, right : workspaceWidth - n.width() - 10, bottom : workspaceHeight - n.height() - 10},
+      startDrag(n, {left : -5000, top: 40, right : 5000, bottom : win.height() - n.height() - 10},
       updateConnections);
+    });
+    
+    // Scroll behavior
+    $("#scrollPane").mousedown(function(e){
+      currentNode = curr;
+      n.css("z-index", zindex++);
+      e.preventDefault();
+      startScroll(n, updateConnections);
     });
     
     // Put box on top on mouse over
@@ -557,6 +599,10 @@ function SourceView(){
       );
   }
   
+  
+  this.changeScroll = function(scrollVal){
+  	alert("remove");
+  }
   
  function clear(){
     nodeId = 0;

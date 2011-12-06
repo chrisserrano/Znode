@@ -7,6 +7,8 @@ function Data(){
 	var comps = new Object();
 	var globals = new Object();
 	var resources = new Object();
+	var supers = new Object();
+	var subs = new Object();
 	
 	/* test values */
 	// Source view
@@ -42,12 +44,12 @@ function Data(){
 	comps['class1'] = class1b;
 	
 	// Inheritence view
-	var class1super = new Object();
-	class1super.vars = new Array("v1","v2");
-	class1.supers = class1super;
-	var subs = new Array("sub1","sub2");
-	class1.subs = subs;
-	classes['class1'] = class1;
+	var class1super = new Array("v1","v2");
+	var supersC1 = new Object();
+	supersC1['class1super'] = class1super;
+	supers['class1'] = supersC1;
+	var class1subs = new Array("sub1","sub2");
+	subs['class1'] = subs;
 	
 	// Globals view
 	var global1 = new Object();
@@ -71,6 +73,8 @@ function Data(){
 	this.globals = globals;
 	this.resources = resources;
 	this.comps = comps;
+	this.supers = supers;
+	this.subs = subs;
 		
 	this.save = function(){
 		var saveStruct = new Object();
@@ -81,6 +85,8 @@ function Data(){
 		saveStruct.globals = this.globals;
 		saveStruct.resources = this.resources;
 		saveStruct.comps = this.comps;
+		saveStruct.supers = this.supers;
+		saveStruct.subs = this.subs;
 		var myJSONText = JSON.stringify(saveStruct);
 		return myJSONText;
 	}
@@ -93,6 +99,8 @@ function Data(){
 		this.globals = data.globals;
 		this.resources = data.resources;
 		this.comps = data.comps;
+		this.supers = data.supers;
+		this.subs = data.subs;
 	}
 	
 	this.clearAll = function(){
@@ -103,5 +111,7 @@ function Data(){
 		this.globals = new Object();
 		this.resources = new Object();
 		this.comps = new Object();
+		this.supers = new Object();
+		this.subs = new Object();
 	}
 }
