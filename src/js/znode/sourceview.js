@@ -564,7 +564,7 @@ function SourceView(){
     });
     
     // Scroll behavior
-    $("#scrollPane").mousedown(function(e){
+    $(".scrollPane").mousedown(function(e){
       currentNode = curr;
       n.css("z-index", zindex++);
       e.preventDefault();
