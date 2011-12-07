@@ -14,9 +14,13 @@ function Data(){
 	// Source view
 	var source1 = "example source code 1";
 	var source2 = "example source code 2";
+	var source3 = "example source code sub1";
+	var source4 = "example source code sub2";
 	
 	source['class1'] = source1;
 	source['class2'] = source2;
+	source['sub1'] = source3;
+	source['sub2'] = source4;
 	
 	// Function view
 	var class1 = new Object;

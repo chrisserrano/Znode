@@ -5,6 +5,12 @@ body, html {
   background-color : rgb(180,210,240);
 }
 
+.sourceCode {
+	font-family: courier;
+	font-size: 12px;
+	padding: 5px;
+}
+
 #mainScroll {
 	position: absolute;
 	left: 30%;
@@ -68,15 +74,6 @@ h4 {
 
 .listBox {
 	float: left;
-	width: 25%;
-	margin: 10px; padding: 15px;
-	border: 1px solid gray;
-	background-color: #EEE;
-	box-shadow: 0px 2px 5px rgba(0,0,0,0.5);
-}
-.classList {
-	float: left;
-	width: 25%;
 	margin: 10px; padding: 15px;
 	border: 1px solid gray;
 	background-color: #EEE;

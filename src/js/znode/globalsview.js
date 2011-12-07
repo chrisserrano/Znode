@@ -3,7 +3,7 @@ function GlobalsView(dataObj){
 	this.reload = function() {
 		$("#globalsUseList").hide();
 		// Add class names
-		$("#globalsList").html("Click a global to see its uses:");
+		$("#globalsList").html("Click a global variable to see its uses:");
 		for (var i in dataObj.globals) {
 			$("#globalsList").append("<h4>"+i+"</h4>");
 		}

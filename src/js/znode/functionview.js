@@ -2,14 +2,14 @@ function FunctionView(dataObj){
 	
 	this.reload = function() {
 		// Add class names
-		$(".classList").html("List of files in project:");
+		$("#classList").html("Files in project:");
 		$("#funcList").html("<h5>Choose file to see its function list.</h5>");
 		$("#funcUseList").html("<h5>Choose a function to see where it is used.</h5>");
 		for (var i in dataObj.classes) {
-			$(".classList").append("<h4>"+i+"</h4>");
+			$("#classList").append("<h4>"+i+"</h4>");
 		}
 		// Behovior when selecting a class
-		$(".classList h4").click(function(){
+		$("#classList h4").click(function(){
 			var name = $(this).html();
 			$("#funcList").html("Functions of: "+i);
 			for (var f in dataObj.classes[name]){

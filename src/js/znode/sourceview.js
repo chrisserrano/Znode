@@ -356,10 +356,7 @@ function SourceView(){
 	var sourceCode = $(".node .sourceCode").last();
 	this.sourceCode = sourceCode;
 	sourceCode.css({
-		"font-family": "courier",
 		"resize": "none",
-		"font-size": "12px",
-		"padding": "5px",
 		"width" : n.width() - 12,
 		"height" : n.height()-bar.height()-12});
 	

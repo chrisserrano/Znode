@@ -1,7 +1,35 @@
+#inheritView {
+	width: 900px;
+	height: 600px;
+}
+
+#sourceBoxInh {
+	float: left;
+	position: relative;
+	left: 100px;
+	top: 50px;
+	border: 1px solid gray;
+	padding: 10px;
+	margin: 10px;
+	height: 450px;
+	width: 50%;
+	background-color: #EEE;
+	box-shadow: 0px 2px 8px rgba(0,0,0,0.5);
+}
+#editor {
+	position: absolute;
+	left: 500px;
+	top: 0px;
+	border: 1px solid gray;
+	padding: 10px;
+	margin: 10px;
+	background-color: #EEE;
+	box-shadow: 0px 2px 8px rgba(0,0,0,0.5);
+}
+
 #tree {
 	float: left;
 	margin: 20px;
-	height: 2000px;
 }
 
 #tree div {
