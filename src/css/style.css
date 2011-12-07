@@ -11,6 +11,10 @@ body, html {
 	padding: 5px;
 }
 
+.highlight {
+	background-color: yellow;
+}
+
 #mainScroll {
 	position: absolute;
 	left: 30%;

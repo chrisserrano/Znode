@@ -12,7 +12,7 @@ function Data(){
 	
 	/* test values */
 	// Source view
-	var source1 = "example source code 1";
+	var source1 = "example f1 source code f2 ... v1 ... v2 ...";
 	var source2 = "example source code 2";
 	var source3 = "example source code sub1";
 	var source4 = "example source code sub2";

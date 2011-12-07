@@ -69,20 +69,32 @@ function InheritanceView(dataObj){
 			// Behavior when selecting the main class node
 			$(".mainClass").click(function() {
 				var selection = $(this).children("span").html();
-				loadSource(selection);
+				loadSource(selection,superC);
 				loadEditor(selection);
 			})
 			
 		})
 		
-		function loadSource(sel) {
+		function loadSource(sel,superC) {
 			source.hide();
 			source.html("<h4>Source code for "+sel+":</h4>");
 			var code = dataObj.source[sel];
 			if (code) {
-				source.append(dataObj.source[sel]);
+				code = highlight(superC,code);
+				source.append("<span>"+code+"</span>");
 			}
 			source.fadeIn();
+		}
+		
+		// Highlight the places in the code where the class uses superclass funcs/vars
+		function highlight(superC,code) {
+			for (var f in superC.funcs) {
+				code = code.replace(superC.funcs[f], "<span class='highlight'>"+superC.funcs[f]+"</span>");
+			}
+			for (var v in superC.vars) {
+				code = code.replace(superC.vars[v], "<span class='highlight'>"+superC.vars[v]+"</span>");
+			}
+			return code;
 		}
 		
 		function loadEditor(sel) {
