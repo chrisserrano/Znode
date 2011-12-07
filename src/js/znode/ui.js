@@ -9,6 +9,9 @@ $(function(){
   // Global variables view
   var globalsView = new GlobalsView(dataObj);
   globalsView.reload();
+  // Inheritance view
+  var inheritanceView = new InheritanceView(dataObj);
+  inheritanceView.reload();
   
   		//scrollpane parts
   		var lastScrollVal = 0;
@@ -179,6 +182,7 @@ $(function(){
 	// Reload views
 	functionView.reload();
 	globalsView.reload();
+	inheritanceView.reload();
 	// update filename box
 	filename.val(name);
   }).live('mouseover', function(){
@@ -194,6 +198,7 @@ $(function(){
     	dataObj.clearAll();
     	functionView.reload();
     	globalsView.reload();
+    	inheritanceView.reload();
   	}
   });
   

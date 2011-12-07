@@ -44,12 +44,15 @@ function Data(){
 	comps['class1'] = class1b;
 	
 	// Inheritence view
-	var class1super = new Array("v1","v2");
-	var supersC1 = new Object();
-	supersC1['class1super'] = class1super;
-	supers['class1'] = supersC1;
+	var class1super = new Object();
+	class1super.name = "class1super";
+	class1super.funcs = new Array("f1","f2");
+	class1super.vars = new Array("v1","v2");
+	
+	supers['class1'] = class1super;
+	
 	var class1subs = new Array("sub1","sub2");
-	subs['class1'] = subs;
+	subs['class1'] = class1subs;
 	
 	// Globals view
 	var global1 = new Object();

@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <title>cserrano final project</title>
     <link rel="stylesheet" href="css/style.css" type="text/css" />
+    <link rel="stylesheet" href="css/inheritanceStyle.css" type="text/css" />
     <link rel="stylesheet" href="css/redmond/jquery-ui-1.8.16.custom.css" type="text/css" />
     <script type="text/javascript" src="js/libs/jquery-1.6.2.min.js"></script>
     <script type="text/javascript" src="js/libs/jquery-ui-1.8.16.custom.min.js"></script>
@@ -14,6 +15,7 @@
     <script type="text/javascript" src="js/znode/globalsview.js"></script>
     <script type="text/javascript" src="js/znode/resourceview.js"></script>
     <script type="text/javascript" src="js/znode/compview.js"></script>
+    <script type="text/javascript" src="js/znode/inheritance.js"></script>
     <script type="text/javascript" src="js/znode/ui.js"></script>
     <script type="text/javascript" src="js/znode/data.js"></script>
     <script type="text/javascript" src="mySQL/init.js"></script>
@@ -52,9 +54,12 @@
     		<div id="rightArrow" class="scrollPane"></div>
     	</div>
     </div>
-    <div id="inheritView"></div>
+    <div id="inheritView" class="viewContainer">
+    	<div class="classList" class="listBox"></div>
+		<div id="tree"></div>
+    </div>
     <div id="functionView" class="viewContainer">
-    	<div id="classList" class="listBox"></div>
+    	<div class="classList"></div>
 		<div id="funcList" class="listBox"></div>
 		<div class="listBox">
 			<div id="funcUseList"></div>

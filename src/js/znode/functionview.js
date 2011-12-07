@@ -2,14 +2,14 @@ function FunctionView(dataObj){
 	
 	this.reload = function() {
 		// Add class names
-		$("#classList").html("List of classes in project:");
-		$("#funcList").html("<h5>Choose class to see its function list.</h5>");
+		$(".classList").html("List of files in project:");
+		$("#funcList").html("<h5>Choose file to see its function list.</h5>");
 		$("#funcUseList").html("<h5>Choose a function to see where it is used.</h5>");
 		for (var i in dataObj.classes) {
-			$("#classList").append("<h4>"+i+"</h4>");
+			$(".classList").append("<h4>"+i+"</h4>");
 		}
 		// Behovior when selecting a class
-		$("#classList h4").click(function(){
+		$(".classList h4").click(function(){
 			var name = $(this).html();
 			$("#funcList").html("Functions of: "+i);
 			for (var f in dataObj.classes[name]){
@@ -45,7 +45,7 @@ function FunctionView(dataObj){
 		if (funcArr.length == 0) {
 			$("#funcUseList").html("No entries for where "+funcName+" is used.");
 		} else {
-			$("#funcUseList").html(funcName+" is called in the following classes:");
+			$("#funcUseList").html(funcName+" is called in the following places:");
 			for (var i in funcArr){
 				$("#funcUseList").append("<p>");
 				// Remove button

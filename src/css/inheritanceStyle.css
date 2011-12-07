@@ -1,0 +1,82 @@
+#tree {
+	float: left;
+	margin: 20px;
+	height: 2000px;
+}
+
+#tree div {
+    width: 100px;
+    border: 2px solid gray;
+    padding: 10px;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: small;
+}
+
+#tree hr {
+    border: 0;
+    width: 120%;
+    position: relative;
+    left: -10px;
+    color: gray;
+    background-color: gray;
+    height: 1px;
+}
+
+#tree .mainClass {
+    background-color: #E6B37F;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.5);
+}
+
+#tree .super {
+    position: relative;
+    top: 4px;
+    background-color: #F0F0B2;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.5);
+}
+#tree .sub {
+    position: relative;
+    height: 30px;
+    left: 142px;
+    top: 10px;
+    margin-bottom: 20px;
+    background-color: #F0F0B2;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.5);
+}
+#tree .sub span {
+    position: relative;
+    top: -45px;
+}
+#tree .subL {
+    height: 40px;
+    width: 80px;
+       margin: 0px;
+    padding: 0px;
+    position: relative;
+    float: left;
+    left: 60px;
+    top: -2px;
+    border-color: transparent transparent gray gray;
+}
+#tree .subStraight {
+    height: 60px;
+    width: 74px;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+    left: -100px;
+    top: 40px;
+    float: left;
+    border-color: transparent gray transparent transparent;
+}
+
+#tree .subSuper {
+    height: 20px;
+    width: 50px;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+    left: 10px;
+    top: 2px;
+    border-color: transparent gray transparent transparent;
+}
