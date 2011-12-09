@@ -373,7 +373,6 @@ function SourceView(){
 	  load.css("color","white");
 	}).click(function(){
 		loadSource(curr);
-		source.show();
 	});
 	function loadSource(currentNode){
 		// Reload class list
@@ -389,6 +388,7 @@ function SourceView(){
 		})
 		// Choose class on click
 		$("#classListSrc .existingClass").click(function(){
+			classList.hide();
 			var name = $(this).html();
 			curr.bar.html(name);
 			var code = dataObj.source[name];
@@ -396,6 +396,7 @@ function SourceView(){
 		})
 		// Create a new class
 		$("#classListSrc .newClass").click(function(){
+			classList.hide();
 			var name = prompt("Enter a name for the new file:");
 			if (name) {
 				curr.bar.html(name);
@@ -431,10 +432,10 @@ function SourceView(){
     var right = $(".node .right").last();
     var bottom = $(".node .bottom").last();
     
-    setupConnection(left);
-    setupConnection(right);
-    setupConnection(top);
-    setupConnection(bottom);
+    //setupConnection(left);
+    //setupConnection(right);
+    //setupConnection(top);
+    //setupConnection(bottom);
     
     positionLeft();
     positionRight();
