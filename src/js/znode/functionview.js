@@ -1,23 +1,88 @@
 function FunctionView(dataObj){
 	
 	this.reload = function() {
+		loadLists();
+	}
+	
+	function loadLists() {
 		// Add class names
-		$("#classList").html("Files in project:");
-		$("#funcList").html("<h5>Choose file to see its function list.</h5>");
+		$("#classList").html("Classes in project:");
+		$("#funcList").html("<h5>Choose class to see its function list.</h5>");
 		$("#funcUseList").html("<h5>Choose a function to see where it is used.</h5>");
 		for (var i in dataObj.classes) {
-			$("#classList").append("<h4>"+i+"</h4>");
+			// Remove button
+			$("#classList").append("<br><input type='button' value='X' style='cursor:pointer'></input>");
+			// Class name
+			$("#classList").append("<span>"+i+"</span>");
 		}
+		// Removing class
+		$("#classList input").click(function(){
+			var entry = $(this).next().html();
+			// perform deletion
+			delete dataObj.classes[entry];
+			// reload
+			loadLists();
+		});
+		
+		// Add "add" box
+		$("#classList").append("<br><input type='text' size='25' maxlength='32' id='classListAddTxt'>");
+		$("#classList").append("<input type='button' id='classListAddBtn' value='+' style='cursor:pointer'></input>");
+		$("#classListAddBtn").click(function(){
+			var entry = $("#classListAddTxt").val();
+			// Check for entry
+			if (entry) {
+				// Add entry
+				if (!dataObj.classes[entry]) {
+					dataObj.classes[entry] = new Object();
+				}
+				// Reload
+				loadLists();
+			}
+		});
+		
 		// Behovior when selecting a class
-		$("#classList h4").click(function(){
+		$("#classList span").click(function(){
+			$("#funcUseList").html("<h5>Choose a function to see where it is used.</h5>");
+			$("#funcViewAdd").html("");
+			
+			var thisFunc = $(this);
 			var name = $(this).html();
 			$("#funcList").html("Functions of: "+i);
 			for (var f in dataObj.classes[name]){
+				// Remove button
+				$("#funcList").append("<br><input type='button' value='X' style='cursor:pointer'></input>");
 				// Add functions for that class
-				$("#funcList").append("<h4>"+f+"</h4>");
+				$("#funcList").append("<span>"+f+"</span>");
 			}
+			// Removing function
+			$("#funcList input").click(function(){
+				var entry = $(this).next().html();
+				delete dataObj.classes[name][entry];
+				// reload
+				thisFunc.click();
+			});
+			
+			// Add "add" box
+			$("#funcList").append("<br><input type='text' size='25' maxlength='32' id='funcListAddTxt'>");
+			$("#funcList").append("<input type='button' id='funcListAddBtn' value='+' style='cursor:pointer'></input>");
+			$("#funcListAddBtn").click(function(){
+				var entry = $("#funcListAddTxt").val();
+				// Check for entry
+				if (entry) {
+					// Add entry
+					if (!dataObj.classes[name][entry]) {
+						dataObj.classes[name][entry] = new Object();
+						if (!dataObj.funcs[entry]) {
+							dataObj.funcs[entry] = new Array();
+						}
+					}
+					// Reload
+					thisFunc.click();
+				}
+			})
+			
 			// Behavior when clicking a function
-			$("#funcList h4").click(function(){
+			$("#funcList span").click(function(){
 				var funcName = $(this).html();
 				var funcArr = dataObj.funcs[funcName];
 				// List where this function is called
@@ -35,10 +100,10 @@ function FunctionView(dataObj){
 						// Reload uses
 						listUses(funcName, funcArr);
 					}
-				});
-			});
-		});
-	};
+				})
+			})
+		})
+	}
 	
 	// Reload just the Uses (rightmost) pane
 	function listUses(funcName,funcArr) {
@@ -47,9 +112,8 @@ function FunctionView(dataObj){
 		} else {
 			$("#funcUseList").html(funcName+" is called in the following places:");
 			for (var i in funcArr){
-				$("#funcUseList").append("<p>");
 				// Remove button
-				$("#funcUseList").append("<input type='button' value='X' style='cursor:pointer'></input>");
+				$("#funcUseList").append("<br><input type='button' value='X' style='cursor:pointer'></input>");
 				// Use entry
 				$("#funcUseList").append("<span>"+funcArr[i]+"</span>");
 			}

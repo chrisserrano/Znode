@@ -1,8 +1,3 @@
-#inheritView {
-	width: 1000px;
-	height: 800px;
-}
-
 #sourceBoxInh {
 	overflow: auto;
 	float: left;

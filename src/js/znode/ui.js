@@ -12,6 +12,12 @@ $(function(){
   // Inheritance view
   var inheritanceView = new InheritanceView(dataObj);
   inheritanceView.reload();
+  // Composition view
+  var compView = new CompView(dataObj);
+  compView.reload();
+  // Resouces view
+  var resourceView = new ResourceView(dataObj);
+  resourceView.reload();
   
   		//scrollpane parts
   		var lastScrollVal = 0;
@@ -88,7 +94,7 @@ $(function(){
 		setTimeout( sizeScrollbar, 10 );//safari wants a timeout
   
   // Default view is source view
-  $("#inheritView,#functionView,#globalsView").hide();
+  $("#inheritView,#functionView,#globalsView,#compView,#resourceView").hide();
   
   // Create a new node when clicking on canvas
   // Only for inheritance view
@@ -179,10 +185,7 @@ $(function(){
     	// load JSON file, node info
     	sourceView.fromJSON(data);
     });
-	// Reload views
-	functionView.reload();
-	globalsView.reload();
-	inheritanceView.reload();
+	reloadViews();
 	// update filename box
 	filename.val(name);
   }).live('mouseover', function(){
@@ -196,11 +199,17 @@ $(function(){
   	if (confirm("Clear all contents?")) {
     	sourceView.clearAll();
     	dataObj.clearAll();
-    	functionView.reload();
-    	globalsView.reload();
-    	inheritanceView.reload();
+    	reloadViews();
   	}
   });
+  
+  function reloadViews() {
+  	functionView.reload();
+    globalsView.reload();
+    inheritanceView.reload();
+	compView.reload();
+	resourceView.reload();
+  }
   
   // Help button
   $("#help").click(function(){
@@ -210,37 +219,37 @@ $(function(){
   // Inheritance view button
   $("#inheritance").click(function(){
   	$("#inheritView").fadeIn();
-  	$("#classCanvas,#functionView,#globalsView").hide();
+  	$("#classCanvas,#functionView,#globalsView,#compView,#resourceView").hide();
   });
   
   // Source code view button
   $("#source").click(function(){
   	$("#classCanvas").fadeIn();
-  	$("#inheritView,#functionView,#globalsView").hide();
+  	$("#inheritView,#functionView,#globalsView,#compView,#resourceView").hide();
   });
   
   // Function calls view button
   $("#func").click(function(){
   	$("#functionView").fadeIn();
-  	$("#inheritView,#classCanvas,#globalsView").hide();
+  	$("#inheritView,#classCanvas,#globalsView,#compView,#resourceView").hide();
   });
   
   // Globals view
   $("#globals").click(function(){
     $("#globalsView").fadeIn();
-  	$("#inheritView,#classCanvas,#functionView").hide();
+  	$("#inheritView,#classCanvas,#functionView,#compView,#resourceView").hide();
   });
   
   // Composition view button
-  // TODO add resources functionality
   $("#comp").click(function(){
-    
+    $("#compView").fadeIn();
+  	$("#inheritView,#classCanvas,#functionView,#globalsView,#resourceView").hide();
   });
   
   // Resources view button
-  // TODO add resources functionality
   $("#resources").click(function(){
-  	
+  	$("#resourceView").fadeIn();
+  	$("#inheritView,#classCanvas,#functionView,#compView,#globalsView").hide();
   });
   
 });
