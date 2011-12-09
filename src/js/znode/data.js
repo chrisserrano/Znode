@@ -40,12 +40,19 @@ function Data(){
 	classes['class2'] = class2;
 	
 	// Composition view
-	var compFuncs = new Array("f1","f2");
-	var compVars = new Array("v1","v2");
 	var class1b = new Object();
-	class1b.compFuncs = compFuncs;
-	class1b.compVars = compVars;
-	comps['class1'] = class1b;
+	class1b.compFuncs = new Array("f1","f2");
+	class1b.compVars = new Array("v1","v2");
+	
+	var class2b = new Object();
+	class2b.compFuncs = new Array("f3","f4");
+	class2b.compVars = new Array("v3","v4");
+	
+	var class1comps = new Object();
+	class1comps['class1b'] = class1b;
+	class1comps['class2b'] = class2b;
+	
+	comps['class1comp'] = class1comps;
 	
 	// Inheritence view
 	var class1super = new Object();
