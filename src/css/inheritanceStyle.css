@@ -1,24 +1,25 @@
 #inheritView {
-	width: 900px;
-	height: 600px;
+	width: 1000px;
+	height: 800px;
 }
 
 #sourceBoxInh {
+	overflow: auto;
 	float: left;
-	position: relative;
-	left: 100px;
-	top: 50px;
+	position: absolute;
+	left: 600px;
+	top: 80px;
 	border: 1px solid gray;
 	padding: 10px;
 	margin: 10px;
-	height: 450px;
-	width: 50%;
+	height: 500px;
+	width: 45%;
 	background-color: #EEE;
 	box-shadow: 0px 2px 8px rgba(0,0,0,0.5);
 }
 #editor {
 	position: absolute;
-	left: 500px;
+	left: 600px;
 	top: 0px;
 	border: 1px solid gray;
 	padding: 10px;
@@ -28,12 +29,20 @@
 }
 
 #tree {
+	overflow-y: auto;
+	width: 400px;
+	height: 90%;
 	float: left;
 	margin: 20px;
 }
 
+#tree input {
+	margin-right: 5px;
+}
+
 #tree div {
-    width: 100px;
+	cursor: pointer;
+    width: 200px;
     border: 2px solid gray;
     padding: 10px;
     text-align: center;
@@ -43,7 +52,7 @@
 
 #tree hr {
     border: 0;
-    width: 120%;
+    width: 110%;
     position: relative;
     left: -10px;
     color: gray;
@@ -73,26 +82,30 @@
 }
 #tree .sub span {
     position: relative;
-    top: -45px;
+    top: -50px;
+}
+#tree .sub input {
+    position: relative;
+    top: -50px;
 }
 #tree .subL {
     height: 40px;
-    width: 80px;
+    width: 130px;
        margin: 0px;
     padding: 0px;
     position: relative;
     float: left;
-    left: 60px;
+    left: 110px;
     top: -2px;
     border-color: transparent transparent gray gray;
 }
 #tree .subStraight {
     height: 60px;
-    width: 74px;
+    width: 124px;
     margin: 0px;
     padding: 0px;
     position: relative;
-    left: -100px;
+    left: -150px;
     top: 40px;
     float: left;
     border-color: transparent gray transparent transparent;
@@ -100,7 +113,7 @@
 
 #tree .subSuper {
     height: 20px;
-    width: 50px;
+    width: 100px;
     margin: 0px;
     padding: 0px;
     position: relative;

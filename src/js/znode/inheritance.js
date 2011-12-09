@@ -18,6 +18,7 @@ function InheritanceView(dataObj){
 		
 		// Behovior when selecting a class
 		$("#classListInh h4").click(function(){
+			var className = $(this);
 			var name = $(this).html();
 			
 			// Clear tree & source
@@ -25,22 +26,79 @@ function InheritanceView(dataObj){
 			
 			// Superclass
 			var superC = dataObj.supers[name];
-			if (superC) {
-				tree.append('<div class="super"><span>'+superC.name+'</span></div>');
+			if (superC){
+				tree.append('<div class="super"><input type="button" value="X" style="cursor:pointer"></input><span>'+superC.name+'</span></div>');
     			tree.append('<div class="subSuper"></div>');
+    			
+    			$(".super input").click(function(){
+					// perform deletion
+					delete dataObj.supers[name];
+					// reload
+					className.click();
+				});
 			}
 			
 			// Main class
 			tree.append('<div class="mainClass"><span>'+name+'</span></div>');
 			if (superC) {
+				
+				// Superclass function use
 				$(".mainClass").last().append('<hr>Uses superclass functions:');
 				for (var f in superC.funcs) {
-					$(".mainClass").last().append('<p>'+superC.funcs[f]+'</p>');
+					$(".mainClass").last().append('<p class="funcX"><input type="button" value="X" style="cursor:pointer"></input><span>'+superC.funcs[f]+'</span></p>');
 				}
+				// Deletion
+				$(".funcX input").click(function(){
+					var entry = $(this).next().html();
+					var index = superC.funcs.indexOf(entry);
+					// perform deletion
+					superC.funcs.splice(index,1);
+					// reload
+					className.click();
+				});
+				// Add "add" box
+				$(".mainClass").append("<input type='text' size='20' maxlength='32' id='superFuncAddTxt'>");
+				$(".mainClass").append("<input type='button' id='superFuncAddBtn' value='+' style='cursor:pointer'></input>");
+				$("#superFuncAddBtn").click(function(){
+					var entry = $("#superFuncAddTxt").val();
+					// Check for entry
+					if (entry && superC.funcs.indexOf(entry)==-1) {
+						// Add entry
+						superC.funcs.push(entry);
+						// Reload
+						className.click();
+						$(".mainClass").click();
+					}
+				});
+				
+				// Subclass var use
 				$(".mainClass").last().append('<hr>Uses superclass variables:');
 				for (var v in superC.vars) {
-					$(".mainClass").last().append('<p>'+superC.vars[v]+'</p>');
+					$(".mainClass").last().append('<p class="varX"><input type="button" value="X" style="cursor:pointer"></input><span>'+superC.vars[v]+'</span></p>');
 				}
+				// Deletion
+				$(".varX input").click(function(){
+					var entry = $(this).next().html();
+					var index = superC.vars.indexOf(entry);
+					// perform deletion
+					superC.vars.splice(index,1);
+					// reload
+					className.click();
+				});
+				// Add "add" box
+				$(".mainClass").append("<input type='text' size='20' maxlength='32' id='superVarAddTxt'>");
+				$(".mainClass").append("<input type='button' id='superVarAddBtn' value='+' style='cursor:pointer'></input>");
+				$("#superVarAddBtn").click(function(){
+					var entry = $("#superVarAddTxt").val();
+					// Check for entry
+					if (entry && superC.vars.indexOf(entry)==-1) {
+						// Add entry
+						superC.vars.push(entry);
+						// Reload
+						className.click();
+						$(".mainClass").click();
+					}
+				});
 			}
 			
 			// Subclasses
@@ -48,40 +106,56 @@ function InheritanceView(dataObj){
 			for (var sub in subs) {
 				tree.append('<div class="subL"></div>');
 		    	tree.append('<div class="subStraight"></div>');
-			    tree.append('<div class="sub"><span>'+subs[sub]+'</span></div>')
+			    tree.append('<div class="sub"><input type="button" value="X" style="cursor:pointer"></input><span>'+subs[sub]+'</span></div>')
 			}
-			
-			$(document).ready(function() {
-				// Remove extra straight line
-				$(".subStraight").last().remove();
-				// A couple tweaks to show the last subclass properly
-			    $("span").last().css("top", "5px");
-			    $("span").last().css("left", "-35px");
-			    tree.fadeIn();
+			// Deletion
+			$(".sub input").click(function(){
+				var entry = $(this).next().text();
+				var index = subs.indexOf(entry);
+				// perform deletion
+				subs.splice(index,1);
+				// reload
+				className.click();
+			});
+			// Add subclass button
+			tree.append("<input type='button' class='subAddBtn' value='+' style='cursor:pointer; position:relative; left:100px; top:15px'></input>");
+			$(".subAddBtn").click(function(){
+				var subName = prompt("Enter a name for the subclass:");
+				if (subName && subs.indexOf(subName)==-1) {
+					subs.push(subName);
+					// reload
+					className.click();
+				}
 			})
 			
-			// Behavior when selecting a superclass or subclass node
-			$(".super, .sub").click(function() {
-				editor.hide();
-				var selection = $(this).children("span").html();
+			// Show the tree
+			$(document).ready(function() {
+			    tree.show();
+			    loadEditor(name,className);
+			})
+			
+			// Behavior when selecting a subclass node
+			$(".sub").click(function() {
+				var selection = $(this).children("span").text();
 				loadSource(selection);
 			})
-			// Behavior when selecting the main class node
-			$(".mainClass").click(function() {
-				var selection = $(this).children("span").html();
+			// Behavior when selecting the superclass or main class node
+			$(".super, .mainClass").click(function() {
+				var selection = $(this).children("span").text();
 				loadSource(selection,superC);
-				loadEditor(selection);
+				
 			})
 			
 		})
 		
 		function loadSource(sel,superC) {
-			source.hide();
 			source.html("<h4>Source code for "+sel+":</h4>");
 			var code = dataObj.source[sel];
 			if (code) {
-				code = highlight(superC,code);
-				source.append("<span>"+code+"</span>");
+				if(superC) {
+					code = highlight(superC,code);
+				}
+				source.append("<pre>"+code+"</pre>");
 			}
 			source.fadeIn();
 		}
@@ -97,10 +171,25 @@ function InheritanceView(dataObj){
 			return code;
 		}
 		
-		function loadEditor(sel) {
-			editor.hide();
-			editor.html(sel+ " EDITOR");
-			editor.fadeIn();
+		function loadEditor(sel,element) {
+			editor.html("Set superclass for "+sel+": ");
+			editor.append("<input type='text' size='20' maxlength='32' id='superEditTxt'>");
+			editor.append("<input type='button' id='superEditBtn' value='change' style='cursor:pointer'></input>");
+			// Superclass editor behavior
+			$("#superEditBtn").click(function(){
+					var entry = $("#superEditTxt").val();
+					// Check for entry
+					if (entry) {
+						// Change
+						if (!dataObj.supers[sel]) {
+							dataObj.supers[sel] = new Object();
+						}
+						dataObj.supers[sel].name = entry;
+						// Reload
+						element.click();
+					}
+			});
+			editor.show();
 		}
 		
 		function clear() {
