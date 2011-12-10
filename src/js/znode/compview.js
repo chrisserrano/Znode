@@ -42,17 +42,17 @@ function CompView(dataObj){
 		
 		// Behovior when selecting a class
 		$("#compList span").click(function(){
-			$("#compDetailsList").html("<h5>Choose a function to see where it is used.</h5>");
+			$("#compDetailsList").html("<h5>Choose a class to see its detailed usage.</h5>");
 			$("#compDetailsAdd").html("");
 			
 			var thisFunc = $(this);
 			var name = $(this).html();
-			$("#compUseList").html("Functions of: "+i);
-			for (var f in dataObj.comps[name]){
+			$("#compUseList").html("Classes which use "+i+":");
+			for (var i in dataObj.comps[name]){
 				// Remove button
 				$("#compUseList").append("<br><input type='button' value='X' style='cursor:pointer'></input>");
-				// Add functions for that class
-				$("#compUseList").append("<span>"+f+"</span>");
+				// Populate center pane
+				$("#compUseList").append("<span>"+i+"</span>");
 			}
 			// Removing function
 			$("#compUseList input").click(function(){
@@ -85,17 +85,17 @@ function CompView(dataObj){
 			$("#compUseList span").click(function(){
 				var className = $(this).html();
 				$("#compDetailsList").html("");
-				listFuncUses(dataObj.comps[name][className],name,$(this));
+				listFuncUses(dataObj.comps[name][className],className,name,$(this));
 				$("#compDetailsList").append("<br>");
-				listVarUses(dataObj.comps[name][className],name,$(this));
+				listVarUses(dataObj.comps[name][className],className,name,$(this));
 			})
 		})
 	}
 	
 	// Reload just the Uses (rightmost) pane
-	function listFuncUses(className,classNameTxt,reclick) {
+	function listFuncUses(className,classNameTxt,compNameTxt,reclick) {
 		
-		$("#compDetailsList").append(classNameTxt+" blah blah functions:");
+		$("#compDetailsList").append(classNameTxt+" uses the following functions in "+compNameTxt+":");
 		for (var i in className.compFuncs){
 			// Remove button
 			$("#compDetailsList").append("<br><input type='button' value='X' class='compFuncsDelBtn' style='cursor:pointer'></input>");
@@ -129,9 +129,9 @@ function CompView(dataObj){
 	};
 	
 	// Reload just the Uses (rightmost) pane
-	function listVarUses(className,classNameTxt,reclick) {
+	function listVarUses(className,classNameTxt,compNameTxt,reclick) {
 		
-		$("#compDetailsList").append(classNameTxt+" blah blah variables:");
+		$("#compDetailsList").append(classNameTxt+" uses the following variables in "+compNameTxt+":");
 		for (var i in className.compVars){
 			// Remove button
 			$("#compDetailsList").append("<br><input type='button' class='compVarsDelBtn' value='X' style='cursor:pointer'></input>");
