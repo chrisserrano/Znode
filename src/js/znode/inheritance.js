@@ -11,7 +11,8 @@ function InheritanceView(dataObj){
 	function loadLists() {	
 		// Clear tree & source
 		clear();
-		tree.html("Choose a file to view its inheritance information.")
+		tree.html("<div class='listBox'>Choose a file to view its inheritance tree.</div>");
+		tree.show();
 		
 		
 		// Add class names
@@ -20,7 +21,7 @@ function InheritanceView(dataObj){
 			// Remove button
 			$("#classListInh").append("<br><input type='button' value='X' style='cursor:pointer'></input>");
 			// Class name
-			$("#classListInh").append("<span>"+i+"</span>");
+			$("#classListInh").append("<span style='cursor:pointer'>"+i+"</span>");
 		}
 		// Removing class
 		$("#classListInh input").click(function(){
@@ -217,7 +218,7 @@ function InheritanceView(dataObj){
 		}
 		
 		function loadEditor(sel,element) {
-			editor.html("Set superclass for "+sel+": ");
+			editor.html("Set superclass for "+sel+": <br>");
 			editor.append("<input type='text' size='20' maxlength='32' id='superEditTxt'>");
 			editor.append("<input type='button' id='superEditBtn' value='change' style='cursor:pointer'></input>");
 			// Superclass editor behavior

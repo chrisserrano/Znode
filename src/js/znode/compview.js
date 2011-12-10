@@ -13,7 +13,7 @@ function CompView(dataObj){
 			// Remove button
 			$("#compList").append("<br><input type='button' value='X' style='cursor:pointer'></input>");
 			// Class name
-			$("#compList").append("<span>"+i+"</span>");
+			$("#compList").append("<span style='cursor:pointer'>"+i+"</span>");
 		}
 		// Removing class
 		$("#compList input").click(function(){
@@ -54,7 +54,7 @@ function CompView(dataObj){
 				// Remove button
 				$("#compUseList").append("<br><input type='button' value='X' style='cursor:pointer'></input>");
 				// Populate center pane
-				$("#compUseList").append("<span>"+i+"</span>");
+				$("#compUseList").append("<span style='cursor:pointer'>"+i+"</span>");
 			}
 			// Removing function
 			$("#compUseList input").click(function(){

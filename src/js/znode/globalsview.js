@@ -7,12 +7,12 @@ function GlobalsView(dataObj){
 	function loadLists() {		
 		$("#globalsUseList").hide();
 		// Add class names
-		$("#globalsViewList").html("Click a global variable to see its uses:");
+		$("#globalsViewList").html("Global variables in project:");
 		for (var i in dataObj.globals) {
 			// Remove button
 			$("#globalsViewList").append("<br><input type='button' value='X' style='cursor:pointer'></input>");
 			// Global name
-			$("#globalsViewList").append("<span>"+i+"</span>");
+			$("#globalsViewList").append("<span style='cursor:pointer'>"+i+"</span>");
 		}
 		
 		// Removing global
@@ -63,7 +63,7 @@ function GlobalsView(dataObj){
 	function listDeclared(name, struct) {
 		$("#declared").html(name+" declared in:<br>");
 		if (struct.declared != undefined) {
-			$("#declared").append(struct.declared+"<br>");
+			$("#declared").append("<span>"+struct.declared+"</span><br>");
 		} else {
 			$("#declared").append("<i>undefined</i><br>");
 		}
@@ -81,8 +81,8 @@ function GlobalsView(dataObj){
 	
 	function listInit(name, struct) {
 		$("#init").html("<br>"+name+" initialized in:<br>");
-		if (struct.declared != undefined) {
-			$("#init").append(struct.init+"<br>");
+		if (struct.init != undefined) {
+			$("#init").append("<span>"+struct.init+"</span><br>");
 		} else {
 			$("#init").append("<i>undefined</i><br>");
 		}

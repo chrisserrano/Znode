@@ -5,15 +5,18 @@ function FunctionView(dataObj){
 	}
 	
 	function loadLists() {
-		// Add class names
+		
 		$("#classList").html("Classes in project:");
 		$("#funcList").html("<h5>Choose class to see its function list.</h5>");
 		$("#funcUseList").html("<h5>Choose a function to see where it is used.</h5>");
+		$("#funcViewAdd").html("");
+		
+		// Add class names
 		for (var i in dataObj.classes) {
 			// Remove button
 			$("#classList").append("<br><input type='button' value='X' style='cursor:pointer'></input>");
 			// Class name
-			$("#classList").append("<span>"+i+"</span>");
+			$("#classList").append("<span style='cursor:pointer'>"+i+"</span>");
 		}
 		// Removing class
 		$("#classList input").click(function(){
@@ -50,7 +53,7 @@ function FunctionView(dataObj){
 				// Remove button
 				$("#funcList").append("<br><input type='button' value='X' style='cursor:pointer'></input>");
 				// Add functions for that class
-				$("#funcList").append("<span>"+f+"</span>");
+				$("#funcList").append("<span style='cursor:pointer'>"+f+"</span>");
 			}
 			// Removing function
 			$("#funcList input").click(function(){
