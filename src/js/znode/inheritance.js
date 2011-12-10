@@ -10,14 +10,41 @@ function InheritanceView(dataObj){
 		clear();
 		tree.html("Choose a file to view its inheritance information.")
 		
-		// List class names
-		$("#classListInh").html("Files in project:");
+		
+		// Add class names
+		$("#classListInh").html("Classes in project:");
 		for (var i in dataObj.classes) {
-			$("#classListInh").append("<h4>"+i+"</h4>");
+			// Remove button
+			$("#classListInh").append("<br><input type='button' value='X' style='cursor:pointer'></input>");
+			// Class name
+			$("#classListInh").append("<span>"+i+"</span>");
 		}
+		// Removing class
+		$("#classListInh input").click(function(){
+			var entry = $(this).next().html();
+			// perform deletion
+			delete dataObj.classes[entry];
+			// reload
+			loadLists();
+		});
+		// Add "add" box
+		$("#classListInh").append("<br><input type='text' size='25' maxlength='32' id='classListInhAddTxt'>");
+		$("#classListInh").append("<input type='button' id='classListInhAddBtn' value='+' style='cursor:pointer'></input>");
+		$("#classListInhAddBtn").click(function(){
+			var entry = $("#classListInhAddTxt").val();
+			// Check for entry
+			if (entry) {
+				// Add entry
+				if (!dataObj.classes[entry]) {
+					dataObj.classes[entry] = new Object();
+				}
+				// Reload
+				loadLists();
+			}
+		});
 		
 		// Behovior when selecting a class
-		$("#classListInh h4").click(function(){
+		$("#classListInh span").click(function(){
 			var className = $(this);
 			var name = $(this).html();
 			
@@ -55,6 +82,7 @@ function InheritanceView(dataObj){
 					superC.funcs.splice(index,1);
 					// reload
 					className.click();
+					loadSource(name);
 				});
 				// Add "add" box
 				$(".mainClass").append("<input type='text' size='20' maxlength='32' id='superFuncAddTxt'>");
@@ -62,12 +90,17 @@ function InheritanceView(dataObj){
 				$("#superFuncAddBtn").click(function(){
 					var entry = $("#superFuncAddTxt").val();
 					// Check for entry
-					if (entry && superC.funcs.indexOf(entry)==-1) {
-						// Add entry
-						superC.funcs.push(entry);
-						// Reload
-						className.click();
-						$(".mainClass").click();
+					if (entry) {
+						if(!superC.funcs) {
+							superC.funcs = new Array();
+						}
+						if (superC.funcs.indexOf(entry)==-1) {
+							// Add entry
+							superC.funcs.push(entry);
+							// Reload
+							className.click();
+							$(".mainClass").click();
+						}
 					}
 				});
 				
@@ -84,6 +117,7 @@ function InheritanceView(dataObj){
 					superC.vars.splice(index,1);
 					// reload
 					className.click();
+					loadSource(name);
 				});
 				// Add "add" box
 				$(".mainClass").append("<input type='text' size='20' maxlength='32' id='superVarAddTxt'>");
@@ -91,12 +125,17 @@ function InheritanceView(dataObj){
 				$("#superVarAddBtn").click(function(){
 					var entry = $("#superVarAddTxt").val();
 					// Check for entry
-					if (entry && superC.vars.indexOf(entry)==-1) {
-						// Add entry
-						superC.vars.push(entry);
-						// Reload
-						className.click();
-						$(".mainClass").click();
+					if (entry) {
+						if(!superC.vars) {
+							superC.vars = new Array();
+						}
+						if (superC.vars.indexOf(entry)==-1) {
+							// Add entry
+							superC.vars.push(entry);
+							// Reload
+							className.click();
+							$(".mainClass").click();
+						}
 					}
 				});
 			}
@@ -142,32 +181,31 @@ function InheritanceView(dataObj){
 			// Behavior when selecting the superclass or main class node
 			$(".super, .mainClass").click(function() {
 				var selection = $(this).children("span").text();
-				loadSource(selection,superC);
-				
+				loadSource(selection);
 			})
 			
 		})
 		
-		function loadSource(sel,superC) {
-			source.html("<h4>Source code for "+sel+":</h4>");
-			var code = dataObj.source[sel];
-			if (code) {
-				if(superC) {
-					code = highlight(superC,code);
+		function loadSource(sel) {
+			// If source not already loaded, load it
+			if ($("#sourceBoxInh h4").text() != "Source code for "+sel+":") {
+				source.html("<h4>Source code for "+sel+":</h4>");
+				var code = dataObj.source[sel];
+				if (code) {
+					source.append("<pre>"+code+"</pre>");
 				}
-				source.append("<pre>"+code+"</pre>");
 			}
-			source.fadeIn();
+			source.show();
+			// Highlight func/var on click
+			$(".mainClass span").click(function() {
+				var highlighted = highlight( $("pre").text(),$(this).text());
+				$("pre").html( highlighted );
+			})
 		}
 		
-		// Highlight the places in the code where the class uses superclass funcs/vars
-		function highlight(superC,code) {
-			for (var f in superC.funcs) {
-				code = code.replace(superC.funcs[f], "<span class='highlight'>"+superC.funcs[f]+"</span>");
-			}
-			for (var v in superC.vars) {
-				code = code.replace(superC.vars[v], "<span class='highlight'>"+superC.vars[v]+"</span>");
-			}
+		// Highlight selected funcs/vars
+		function highlight(code, sel) {
+			code = code.replace(sel, "<span class='highlight'>"+sel+"</span>");
 			return code;
 		}
 		
@@ -195,6 +233,7 @@ function InheritanceView(dataObj){
 		function clear() {
 			tree.html("");
 			tree.hide();
+			source.html("");
 			source.hide();
 			editor.hide();
 		}

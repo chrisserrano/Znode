@@ -5,10 +5,40 @@ function GlobalsView(dataObj){
 		// Add class names
 		$("#globalsList").html("Click a global variable to see its uses:");
 		for (var i in dataObj.globals) {
-			$("#globalsList").append("<h4>"+i+"</h4>");
+			// Remove button
+			$("#globalsList").append("<br><input type='button' value='X' style='cursor:pointer'></input>");
+			// Global name
+			$("#globalsList").append("<span>"+i+"</span>");
 		}
+		
+		// Removing global
+		$("#globalsList input").click(function(){
+			var entry = $(this).next().html();
+			// perform deletion
+			delete dataObj.globals[entry];
+			// reload
+			reload();
+		});
+		
+		// Add "add" box
+		$("#globalsList").append("<br><input type='text' size='25' maxlength='32' id='globalsListAddTxt'>");
+		$("#globalsList").append("<input type='button' id='globalsListAddBtn' value='+' style='cursor:pointer'></input>");
+		$("#globalsListAddBtn").click(function(){
+			var entry = $("#globalsListAddTxt").val();
+			// Check for entry
+			if (entry) {
+				// Add entry
+				if (!dataObj.globals[entry]) {
+					dataObj.globals[entry] = new Object();
+				}
+				// Reload
+				reload();
+			}
+		});
+		
+		
 		// Behavior when clicking a global
-		$("#globalsList h4").click(function(){
+		$("#globalsList span").click(function(){
 			$("#globalsUseList").fadeIn();
 			var name = $(this).html();
 			var struct = dataObj.globals[name];
