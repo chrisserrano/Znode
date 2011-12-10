@@ -160,10 +160,18 @@ function InheritanceView(dataObj){
 			tree.append("<input type='button' class='subAddBtn' value='+' style='cursor:pointer; position:relative; left:100px; top:15px'></input>");
 			$(".subAddBtn").click(function(){
 				var subName = prompt("Enter a name for the subclass:");
-				if (subName && subs.indexOf(subName)==-1) {
-					subs.push(subName);
-					// reload
+				
+				if(dataObj.subs[name] == undefined) {
+					dataObj.subs[name] = new Array(subName);
+					alert(dataObj.subs[name]);
 					className.click();
+				} else{	
+					if (subName && subs.indexOf(subName)==-1) {
+						subs.push(subName);
+						// reload
+						className.click();
+						alert(subs);
+					}
 				}
 			})
 			
