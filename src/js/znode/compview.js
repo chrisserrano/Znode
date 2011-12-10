@@ -31,7 +31,9 @@ function CompView(dataObj){
 			var entry = $("#compListAddTxt").val();
 			// Check for entry
 			if (entry) {
-				// Add entry
+				// Add new class (if not in project already)
+				dataObj.addClass(entry);
+				// Add as composed class
 				if (!dataObj.comps[entry]) {
 					dataObj.comps[entry] = new Object();
 				}
@@ -45,9 +47,9 @@ function CompView(dataObj){
 			$("#compDetailsList").html("<h5>Choose a class to see its detailed usage.</h5>");
 			$("#compDetailsAdd").html("");
 			
-			var thisFunc = $(this);
+			var thisComp = $(this);
 			var name = $(this).html();
-			$("#compUseList").html("Classes which use "+i+":");
+			$("#compUseList").html("Classes which use "+name+":");
 			for (var i in dataObj.comps[name]){
 				// Remove button
 				$("#compUseList").append("<br><input type='button' value='X' style='cursor:pointer'></input>");
@@ -59,7 +61,7 @@ function CompView(dataObj){
 				var entry = $(this).next().html();
 				delete dataObj.comps[name][entry];
 				// reload
-				thisFunc.click();
+				thisComp.click();
 			});
 			
 			// Add "add" box
@@ -72,12 +74,11 @@ function CompView(dataObj){
 					// Add entry
 					if (!dataObj.comps[name][entry]) {
 						dataObj.comps[name][entry] = new Object();
-						//if (!dataObj.funcs[entry]) {
-						//	dataObj.funcs[entry] = new Array();
-						//}
+						dataObj.comps[name][entry].compFuncs = new Array();
+						dataObj.comps[name][entry].compVars = new Array();
 					}
 					// Reload
-					thisFunc.click();
+					thisComp.click();
 				}
 			})
 			

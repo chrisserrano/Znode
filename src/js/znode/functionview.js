@@ -32,9 +32,7 @@ function FunctionView(dataObj){
 			// Check for entry
 			if (entry) {
 				// Add entry
-				if (!dataObj.classes[entry]) {
-					dataObj.classes[entry] = new Object();
-				}
+				dataObj.addClass(entry);
 				// Reload
 				loadLists();
 			}

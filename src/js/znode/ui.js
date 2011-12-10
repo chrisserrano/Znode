@@ -218,6 +218,8 @@ $(function(){
   
   // Inheritance view button
   $("#inheritance").click(function(){
+  	sourceView.saveCode();
+  	inheritanceView.reload();
   	$("#inheritView").fadeIn();
   	$("#classCanvas,#functionView,#globalsView,#compView,#resourceView").hide();
   });
@@ -230,6 +232,7 @@ $(function(){
   
   // Function calls view button
   $("#func").click(function(){
+  	functionView.reload();
   	$("#functionView").fadeIn();
   	$("#inheritView,#classCanvas,#globalsView,#compView,#resourceView").hide();
   });

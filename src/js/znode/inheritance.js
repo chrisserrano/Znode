@@ -5,7 +5,10 @@ function InheritanceView(dataObj){
 	var editor = $("#editor");	
 	
 	this.reload = function() {
-		
+		loadLists();
+	}
+	
+	function loadLists() {	
 		// Clear tree & source
 		clear();
 		tree.html("Choose a file to view its inheritance information.")
@@ -35,9 +38,7 @@ function InheritanceView(dataObj){
 			// Check for entry
 			if (entry) {
 				// Add entry
-				if (!dataObj.classes[entry]) {
-					dataObj.classes[entry] = new Object();
-				}
+				dataObj.addClass(entry);
 				// Reload
 				loadLists();
 			}
@@ -53,7 +54,7 @@ function InheritanceView(dataObj){
 			
 			// Superclass
 			var superC = dataObj.supers[name];
-			if (superC){
+			if (superC && superC != undefined){
 				tree.append('<div class="super"><input type="button" value="X" style="cursor:pointer"></input><span>'+superC.name+'</span></div>');
     			tree.append('<div class="subSuper"></div>');
     			
@@ -163,14 +164,12 @@ function InheritanceView(dataObj){
 				
 				if(dataObj.subs[name] == undefined) {
 					dataObj.subs[name] = new Array(subName);
-					alert(dataObj.subs[name]);
 					className.click();
 				} else{	
 					if (subName && subs.indexOf(subName)==-1) {
 						subs.push(subName);
 						// reload
 						className.click();
-						alert(subs);
 					}
 				}
 			})

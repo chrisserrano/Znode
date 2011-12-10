@@ -71,7 +71,7 @@ function Data(){
 	global1.declared = "class1 line 11";
 	global1.changes = new Array("c1","c2");
 	global1.used = new Array("c3","c4");
-	globals['global1'] = global1;
+	globals['globalTest'] = global1;
 	
 	// Resources view
 	var resource1 = new Object();
@@ -89,6 +89,12 @@ function Data(){
 	this.comps = comps;
 	this.supers = supers;
 	this.subs = subs;
+	
+	this.addClass = function(name){
+		if (!this.classes[name]) {
+			this.classes[name] = new Object();
+		}
+	}
 		
 	this.save = function(){
 		var saveStruct = new Object();

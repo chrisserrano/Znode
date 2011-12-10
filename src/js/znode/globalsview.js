@@ -1,28 +1,32 @@
 function GlobalsView(dataObj){
 	
 	this.reload = function() {
+		loadLists();
+	}
+	
+	function loadLists() {		
 		$("#globalsUseList").hide();
 		// Add class names
-		$("#globalsList").html("Click a global variable to see its uses:");
+		$("#globalsViewList").html("Click a global variable to see its uses:");
 		for (var i in dataObj.globals) {
 			// Remove button
-			$("#globalsList").append("<br><input type='button' value='X' style='cursor:pointer'></input>");
+			$("#globalsViewList").append("<br><input type='button' value='X' style='cursor:pointer'></input>");
 			// Global name
-			$("#globalsList").append("<span>"+i+"</span>");
+			$("#globalsViewList").append("<span>"+i+"</span>");
 		}
 		
 		// Removing global
-		$("#globalsList input").click(function(){
+		$("#globalsViewList input").click(function(){
 			var entry = $(this).next().html();
 			// perform deletion
 			delete dataObj.globals[entry];
 			// reload
-			reload();
+			loadLists();
 		});
 		
 		// Add "add" box
-		$("#globalsList").append("<br><input type='text' size='25' maxlength='32' id='globalsListAddTxt'>");
-		$("#globalsList").append("<input type='button' id='globalsListAddBtn' value='+' style='cursor:pointer'></input>");
+		$("#globalsViewList").append("<br><input type='text' size='25' maxlength='32' id='globalsListAddTxt'>");
+		$("#globalsViewList").append("<input type='button' id='globalsListAddBtn' value='+' style='cursor:pointer'></input>");
 		$("#globalsListAddBtn").click(function(){
 			var entry = $("#globalsListAddTxt").val();
 			// Check for entry
@@ -30,15 +34,17 @@ function GlobalsView(dataObj){
 				// Add entry
 				if (!dataObj.globals[entry]) {
 					dataObj.globals[entry] = new Object();
+					dataObj.globals[entry].changes = new Array();
+					dataObj.globals[entry].used = new Array();
 				}
 				// Reload
-				reload();
+				loadLists();
 			}
 		});
 		
 		
 		// Behavior when clicking a global
-		$("#globalsList span").click(function(){
+		$("#globalsViewList span").click(function(){
 			$("#globalsUseList").fadeIn();
 			var name = $(this).html();
 			var struct = dataObj.globals[name];
@@ -56,7 +62,11 @@ function GlobalsView(dataObj){
 	
 	function listDeclared(name, struct) {
 		$("#declared").html(name+" declared in:<br>");
-		$("#declared").append(struct.declared+"<br>");
+		if (struct.declared != undefined) {
+			$("#declared").append(struct.declared+"<br>");
+		} else {
+			$("#declared").append("<i>undefined</i><br>");
+		}
 		// Add/change box
 		$("#declared").append("<input type='text' size='25' maxlength='32' id='declaredTxt'>");
 		$("#declared").append("<input type='button' id='declaredBtn' value='edit' style='cursor:pointer'></input>");
@@ -71,7 +81,11 @@ function GlobalsView(dataObj){
 	
 	function listInit(name, struct) {
 		$("#init").html("<br>"+name+" initialized in:<br>");
-		$("#init").append(struct.init+"<br>");
+		if (struct.declared != undefined) {
+			$("#init").append(struct.init+"<br>");
+		} else {
+			$("#init").append("<i>undefined</i><br>");
+		}
 		// Add/change box
 		$("#init").append("<input type='text' size='25' maxlength='32' id='initTxt'>");
 		$("#init").append("<input type='button' id='initBtn' value='edit' style='cursor:pointer'></input>");
