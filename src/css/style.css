@@ -78,6 +78,9 @@ body, html {
 	color: #1E4C90;
 	margin-left: 5px;
 }
+.listBox span:active {
+	color: #90291D;
+}
 .listBox input {
 	color: black;
 }

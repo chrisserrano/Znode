@@ -47,8 +47,8 @@
     border: 2px solid gray;
     padding: 10px;
     text-align: center;
-    font-family: sans-serif;
-    font-size: small;
+    font-family: Georgia, serif;
+    font-size: 12px;
 }
 
 #tree hr {
