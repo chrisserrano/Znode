@@ -294,14 +294,6 @@ function SourceView(){
            "background-color" : "white",
            "box-shadow" : "0px 2px 5px rgba(0,0,0,0.75)"});
     n.css("z-index", zindex++);
-    setOpacity(n);
-        
-    function setOpacity(thisNode) {
-	    var opac = 1 - Math.pow((thisNode.position().left / win.width()), 2);
-	    opac += 1 - Math.pow(((win.width()-thisNode.position().left-thisNode.width()) / win.width()), 2);
-	    opac = opac*opacScale;
-	    thisNode.css("opacity", opac);
-    }
            
     this.content = n;
     
@@ -573,6 +565,15 @@ function SourceView(){
     n.mouseenter(function(){
       n.css("z-index", zindex++);
     });
+    
+    // Set opacity based on position of node
+    setOpacity(n);
+    function setOpacity(thisNode) {
+	    var opac = 1 - Math.pow((thisNode.position().left / win.width()), 2);
+	    opac += 1 - Math.pow(((win.width()-thisNode.position().left-thisNode.width()) / win.width()), 2);
+	    opac = opac*opacScale;
+	    thisNode.css("opacity", opac);
+    }
   }
   
   function hitTest(a, b){
