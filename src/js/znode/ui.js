@@ -145,7 +145,7 @@ $(function(){
   // Hide Open at startup
   openWin.hide();
   // Hide when clicking elsewhere on the canvasses
-  $("#classCanvas,#sourceView,#inheritView,#functionView,#globalsView")
+  $("#classCanvas,#sourceView,#inheritView,#functionView,#globalsView,#compView,#resourceView")
   .mousedown(function(){
     openWin.fadeOut();
   });

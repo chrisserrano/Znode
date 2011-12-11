@@ -646,7 +646,8 @@ function SourceView(){
     clear();
     for (var i in data.nodes){
       var n = data.nodes[i];
-      var ex = (i == "0") ? true : false;
+      //var ex = (i == "0") ? true : false;
+      var ex = false;
       var temp = new Node(n.x, n.y, n.width, n.height, ex, n.id);
     }
     for (i in data.connections){

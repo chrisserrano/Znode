@@ -37,6 +37,7 @@ function ResourceView(dataObj){
 				if (!dataObj.resources[entry]) {
 					dataObj.resources[entry] = new Object();
 					dataObj.resources[entry].used = new Array();
+					dataObj.resources[entry].url =  "MainMenu/" + entry;
 				}
 				// Reload
 				loadLists();
@@ -73,7 +74,7 @@ function ResourceView(dataObj){
 		$("#urlBtn").click(function(){
 			if ($("#urlTxt").val()) {
 				struct.url = $("#urlTxt").val();
-				listUrl(name, struct);
+				listUses(name, struct);
 			}
 		});
 	}
@@ -81,8 +82,8 @@ function ResourceView(dataObj){
 	function showPreview(struct) {
 		var ext = struct.url.substr(-3);
 		// Check if resource is image, JavaScript, or HTML
-		if (ext == "png" || "jpg" || "gif") {
-			$("#preview").html("<img style='max-width: 400px; max-height: 400px' src='"+struct.url+"'/>");
+		if ((ext == "png") || (ext == "jpg") || (ext == "gif")) {
+			$("#preview").html("<img style='max-width: 350px; max-height: 400px' src='"+struct.url+"'/>");
 			$("#preview").fadeIn();
 		} else if (ext == ".js") {
 			$("#preview").html("<i>JavaScript file</i>");
