@@ -11,6 +11,7 @@ function Data(){
 	var subs = new Object();
 	
 	/* test values */
+	/*
 	// Source view
 	var source1 = "example f1 source code f2 ... v1 ... v2 ...";
 	var source2 = "example source code 2";
@@ -75,9 +76,14 @@ function Data(){
 	
 	// Resources view
 	var resource1 = new Object();
-	resource1.used = new Array("c1","c2");
-	resource1.url = "./test/resource1.jpg";
+	resource1.used = new Array("test1","test2");
+	resource1.url = "./gem.png";
 	resources['resource1'] = resource1;
+	var resource2 = new Object();
+	resource2.used = new Array("test3","test4");
+	resource2.url = "./jsplatformer4_b0.png";
+	resources['resource2'] = resource2;
+	*/
 	/* end test values */
 	
 	this.source = source;
