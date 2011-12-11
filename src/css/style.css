@@ -15,10 +15,6 @@ body, html {
 	background-color: yellow;
 }
 
-#globalsView i {
-	color: gray;
-}
-
 #mainScroll {
 	position: absolute;
 	left: 30%;
@@ -78,6 +74,9 @@ body, html {
 }
 .listBox input {
 	color: black;
+}
+.listBox i {
+	color: gray;
 }
 
 /* Class selection for source view */
