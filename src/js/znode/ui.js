@@ -5,19 +5,18 @@ $(function(){
   dataObj = sourceView.dataObj;
   // Function call view
   var functionView = new FunctionView(dataObj);
-  functionView.reload();
   // Global variables view
   var globalsView = new GlobalsView(dataObj);
-  globalsView.reload();
   // Inheritance view
   var inheritanceView = new InheritanceView(dataObj);
-  inheritanceView.reload();
   // Composition view
   var compView = new CompView(dataObj);
-  compView.reload();
   // Resouces view
   var resourceView = new ResourceView(dataObj);
-  resourceView.reload();
+  
+  $(document).ready(function() {
+	reloadViews();
+  })
   
 	//scrollpane parts
 	var lastScrollVal = 0;
@@ -183,15 +182,18 @@ $(function(){
   // Click file to open
   $(".file").live('click', function() {
     var name = $(this).text();
-    $.getJSON("files/structs/" + name + ".json", function(data){
-    	// load JSON file, class info
-       	dataObj.load(data);
-    });
+    
     $.getJSON("files/" + name + ".json", {n:Math.random()}, function(data){
     	// load JSON file, node info
     	sourceView.fromJSON(data);
+    	
+    	$.getJSON("files/structs/" + name + ".json", function(data){
+	    	// load JSON file, class info
+	       	dataObj.load(data);
+	       	reloadViews();
+	    });
     });
-	reloadViews();
+    
 	// update filename box
 	filename.val(name);
 	
@@ -211,6 +213,7 @@ $(function(){
   });
   
   function reloadViews() {
+  	sourceView.loadCode();
   	functionView.reload();
     globalsView.reload();
     inheritanceView.reload();

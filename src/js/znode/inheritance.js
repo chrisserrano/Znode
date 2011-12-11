@@ -206,7 +206,7 @@ function InheritanceView(dataObj){
 			source.show();
 			// Highlight func/var on click
 			$(".mainClass span").click(function() {
-				var highlighted = highlight( $("pre").text(),$(this).text());
+				var highlighted = highlight( $("pre").html(),$(this).text());
 				$("pre").html( highlighted );
 			})
 		}

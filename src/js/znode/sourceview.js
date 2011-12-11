@@ -656,7 +656,7 @@ function SourceView(){
       createConnection(nodes[c.nodeA], c.conA, nodes[c.nodeB], c.conB);
     }
     // reload source code and class names
-    this.loadCode();
+    //this.loadCode();
   }
   
   // save to JSON file
