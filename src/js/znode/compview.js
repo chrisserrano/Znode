@@ -96,7 +96,7 @@ function CompView(dataObj){
 	// Reload just the Uses (rightmost) pane
 	function listFuncUses(className,classNameTxt,compNameTxt,reclick) {
 		
-		$("#compDetailsList").append(classNameTxt+" uses the following functions in "+compNameTxt+":");
+		$("#compDetailsList").append(classNameTxt+" uses the following functions in <br>"+compNameTxt+":");
 		for (var i in className.compFuncs){
 			// Remove button
 			$("#compDetailsList").append("<br><input type='button' value='X' class='compFuncsDelBtn' style='cursor:pointer'></input>");
@@ -132,7 +132,7 @@ function CompView(dataObj){
 	// Reload just the Uses (rightmost) pane
 	function listVarUses(className,classNameTxt,compNameTxt,reclick) {
 		
-		$("#compDetailsList").append(classNameTxt+" uses the following variables in "+compNameTxt+":");
+		$("#compDetailsList").append(classNameTxt+" uses the following variables in <br>"+compNameTxt+":");
 		for (var i in className.compVars){
 			// Remove button
 			$("#compDetailsList").append("<br><input type='button' class='compVarsDelBtn' value='X' style='cursor:pointer'></input>");
