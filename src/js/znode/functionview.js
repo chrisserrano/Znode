@@ -48,7 +48,7 @@ function FunctionView(dataObj){
 			
 			var thisFunc = $(this);
 			var name = $(this).html();
-			$("#funcList").html("Functions of: "+i);
+			$("#funcList").html("Functions of: "+name);
 			for (var f in dataObj.classes[name]){
 				// Remove button
 				$("#funcList").append("<br><input type='button' value='X' style='cursor:pointer'></input>");
@@ -72,10 +72,7 @@ function FunctionView(dataObj){
 				if (entry) {
 					// Add entry
 					if (!dataObj.classes[name][entry]) {
-						dataObj.classes[name][entry] = new Object();
-						if (!dataObj.funcs[entry]) {
-							dataObj.funcs[entry] = new Array();
-						}
+						dataObj.classes[name][entry] = new Array();
 					}
 					// Reload
 					thisFunc.click();
@@ -85,7 +82,7 @@ function FunctionView(dataObj){
 			// Behavior when clicking a function
 			$("#funcList span").click(function(){
 				var funcName = $(this).html();
-				var funcArr = dataObj.funcs[funcName];
+				var funcArr = dataObj.classes[name][funcName];
 				// List where this function is called
 				listUses(funcName, funcArr);
 				// Add "add" box
@@ -95,11 +92,16 @@ function FunctionView(dataObj){
 				$("#funcViewAddBtn").click(function(){
 					var entry = $("#funcViewAddTxt").val();
 					// Check for entry
-					if (entry && funcArr.indexOf(entry)==-1) {
-						// Add entry
-						funcArr.push(entry);
-						// Reload uses
-						listUses(funcName, funcArr);
+					if (entry) {
+						if (!funcArr) {
+							funcArr = new Array();
+						}
+						if(funcArr.indexOf(entry)==-1) {
+							// Add entry
+							funcArr.push(entry);
+							// Reload uses
+							listUses(funcName, funcArr);
+						}
 					}
 				})
 			})

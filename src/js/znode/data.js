@@ -3,7 +3,6 @@ function Data(){
 	var source = new Object();
 	var nodeIdx = new Object();
 	var classes = new Object();
-	var funcs = new Object();
 	var comps = new Object();
 	var globals = new Object();
 	var resources = new Object();
@@ -89,7 +88,6 @@ function Data(){
 	this.source = source;
 	this.nodeIdx = nodeIdx;
 	this.classes = classes;
-	this.funcs = funcs;
 	this.globals = globals;
 	this.resources = resources;
 	this.comps = comps;
@@ -107,7 +105,6 @@ function Data(){
 		saveStruct.source = this.source;
 		saveStruct.nodeIdx = this.nodeIdx;
 		saveStruct.classes = this.classes;
-		saveStruct.funcs = this.funcs;
 		saveStruct.globals = this.globals;
 		saveStruct.resources = this.resources;
 		saveStruct.comps = this.comps;
@@ -121,7 +118,6 @@ function Data(){
 		this.source = data.source;
 		this.nodeIdx = data.nodeIdx;
 		this.classes = data.classes;
-		this.funcs = data.funcs;
 		this.globals = data.globals;
 		this.resources = data.resources;
 		this.comps = data.comps;
@@ -133,7 +129,6 @@ function Data(){
 		this.source = new Object();
 		this.nodeIdx = new Object(); 
 		this.classes = new Object();
-		this.funcs = new Object();
 		this.globals = new Object();
 		this.resources = new Object();
 		this.comps = new Object();
