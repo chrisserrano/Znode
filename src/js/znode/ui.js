@@ -132,7 +132,13 @@ $(function(){
       return;
     }
     // save node positions to JSON
-    $.post("json/save.php", {data:sourceView.toJSON(), name:name});
+    if ($("#classCanvas").is(":visible")) {
+    	$.post("json/save.php", {data:sourceView.toJSON(), name:name});
+    } else {
+    	$("#classCanvas").show();
+    	$.post("json/save.php", {data:sourceView.toJSON(), name:name});
+    	$("#classCanvas").hide();
+    }
     // save code changes in nodes to data object
     sourceView.saveCode();
     // save everything else
@@ -145,7 +151,7 @@ $(function(){
   // Hide Open at startup
   openWin.hide();
   // Hide when clicking elsewhere on the canvasses
-  $("#classCanvas,#sourceView,#inheritView,#functionView,#globalsView,#compView,#resourceView")
+  $("#controls,#classCanvas,#sourceView,#inheritView,#functionView,#globalsView,#compView,#resourceView")
   .mousedown(function(){
     openWin.fadeOut();
   });
