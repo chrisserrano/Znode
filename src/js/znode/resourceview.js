@@ -1,120 +1,95 @@
 function ResourceView(dataObj){
 	
 	this.reload = function() {
-		$("#globalsUseList").hide();
+		loadLists();
+	}
+	
+	function loadLists() {		
+		$("#resourceInfo").hide();
+		$("#preview").hide();
+		
 		// Add class names
-		$("#globalsList").html("Click a global variable to see its uses:");
-		for (var i in dataObj.globals) {
-			$("#globalsList").append("<h4>"+i+"</h4>");
+		$("#resourceList").html("Resources in project:");
+		for (var i in dataObj.resources) {
+			// Remove button
+			$("#resourceList").append("<br><input type='button' value='X' style='cursor:pointer'></input>");
+			// Name
+			$("#resourceList").append("<span style='cursor:pointer'>"+i+"</span>");
 		}
-		// Behavior when clicking a global
-		$("#globalsList h4").click(function(){
-			$("#globalsUseList").fadeIn();
+		
+		// Removing resource
+		$("#resourceList input").click(function(){
+			var entry = $(this).next().html();
+			// perform deletion
+			delete dataObj.resources[entry];
+			// reload
+			loadLists();
+		});
+		
+		// Add "add" box
+		$("#resourceList").append("<br><input type='text' size='25' maxlength='32' id='resourcesListAddTxt'>");
+		$("#resourceList").append("<input type='button' id='resourcesListAddBtn' value='+' style='cursor:pointer'></input>");
+		$("#resourcesListAddBtn").click(function(){
+			var entry = $("#resourcesListAddTxt").val();
+			// Check for entry
+			if (entry) {
+				// Add entry
+				if (!dataObj.resources[entry]) {
+					dataObj.resources[entry] = new Object();
+					dataObj.resources[entry].used = new Array();
+				}
+				// Reload
+				loadLists();
+			}
+		});
+		
+		// Behavior when clicking an item
+		$("#resourceList span").click(function(){
+			$("#preview").hide();
+			$("#resourceInfo").fadeIn();
 			var name = $(this).html();
-			var struct = dataObj.globals[name];
+			var struct = dataObj.resources[name];
 			listUses(name, struct);
 		});
 	};
 	
 	// Reload the Uses (rightmost) pane
 	function listUses(name, struct) {
-		listDeclared(name, struct);
-		listInit(name, struct);
-		listChanges(name, struct.changes);
-		listUsed(name, struct.used);
+		listUrl(name, struct);
+		showPreview(struct);
 	}
 	
-	function listDeclared(name, struct) {
-		$("#declared").html(name+" declared in:<br>");
-		$("#declared").append(struct.declared+"<br>");
-		// Add/change box
-		$("#declared").append("<input type='text' size='25' maxlength='32' id='declaredTxt'>");
-		$("#declared").append("<input type='button' id='declaredBtn' value='edit' style='cursor:pointer'></input>");
-		// Button behavior
-		$("#declaredBtn").click(function(){
-			if ($("#declaredTxt").val()) {
-				struct.declared = $("#declaredTxt").val();
-				listDeclared(name, struct);
-			}
-		});
-	}
-	
-	function listInit(name, struct) {
-		$("#init").html("<br>"+name+" initialized in:<br>");
-		$("#init").append(struct.init+"<br>");
-		// Add/change box
-		$("#init").append("<input type='text' size='25' maxlength='32' id='initTxt'>");
-		$("#init").append("<input type='button' id='initBtn' value='edit' style='cursor:pointer'></input>");
-		// Button behavior
-		$("#initBtn").click(function(){
-			if ($("#initTxt").val()) {
-				struct.init = $("#initTxt").val();
-				listInit(name, struct);
-			}
-		});
-	}
-	
-	function listChanges(name, changes) {
-		$("#changes").html("<br>"+name+" changes value in:<br>");
-		for (var i in changes) {
-			// Remove button
-			$("#changes").append("<input type='button' class='delChanges' value='X' style='cursor:pointer'></input>");
-			// Entry
-			$("#changes").append("<span>"+changes[i]+"</span><br>");
+	function listUrl(name, struct) {
+		$("#url").html(name+" URL:<br>");
+		if (struct.url != undefined) {
+			$("#url").append("<span>"+struct.url+"</span><br>");
+		} else {
+			$("#url").append("<i>undefined</i><br>");
 		}
-		// Add "add" box
-		$("#changes").append("<input type='text' size='25' maxlength='32' id='changesTxt'>");
-		$("#changes").append("<input type='button' id='changesBtn' value='+' style='cursor:pointer'></input>");
-		$("#changesBtn").click(function(){
-			var entry = $("#changesTxt").val();
-			// Check for entry in array
-			if (entry && changes.indexOf(entry)==-1) {
-				// Add entry
-				changes.push(entry);
-				// Reload uses
-				listChanges(name, changes);
+		// Add/change box
+		$("#url").append("<input type='text' size='25' maxlength='32' id='urlTxt'>");
+		$("#url").append("<input type='button' id='urlBtn' value='edit' style='cursor:pointer'></input>");
+		// Button behavior
+		$("#urlBtn").click(function(){
+			if ($("#urlTxt").val()) {
+				struct.url = $("#urlTxt").val();
+				listUrl(name, struct);
 			}
-		});
-		// Remove button behavior
-		$(".delChanges").click(function(){
-			var entry = $(this).next().html();
-			var index = changes.indexOf(entry);
-			// perform deletion
-			changes.splice(index,1);
-			// reload uses
-			listChanges(name,changes);
 		});
 	}
 	
-	function listUsed(name, used) {
-		$("#used").html("<br>"+name+" used in:<br>");
-		for (var i in used) {
-			// Remove button
-			$("#used").append("<input type='button' class='delUsed' value='X' style='cursor:pointer'></input>");
-			// Entry
-			$("#used").append("<span>"+used[i]+"</span><br>");
+	function showPreview(struct) {
+		var ext = struct.url.substr(-3);
+		// Check if resource is image, JavaScript, or HTML
+		if (ext == "png" || "jpg" || "gif") {
+			$("#preview").html("<img style='max-width: 400px; max-height: 400px' src='"+struct.url+"'/>");
+			$("#preview").fadeIn();
+		} else if (ext == ".js") {
+			$("#preview").html("<i>JavaScript file</i>");
+			$("#preview").fadeIn();
+		} else if (struct.url.substr(-5) == ".html") {
+			$("#preview").html("<i>HTML file</i>");
+			$("#preview").fadeIn();
 		}
-		// Add "add" box
-		$("#used").append("<input type='text' size='25' maxlength='32' id='usedTxt'>");
-		$("#used").append("<input type='button' id='usedBtn' value='+' style='cursor:pointer'></input>");
-		$("#usedBtn").click(function(){
-			var entry = $("#usedTxt").val();
-			// Check for entry in array
-			if (entry && used.indexOf(entry)==-1) {
-				// Add entry
-				used.push(entry);
-				// Reload uses
-				listUsed(name, used);
-			}
-		});
-		// Remove button behavior
-		$(".delUsed").click(function(){
-			var entry = $(this).next().html();
-			var index = used.indexOf(entry);
-			// perform deletion
-			used.splice(index,1);
-			// reload uses
-			listUsed(name,used);
-		});
 	}
 }
