@@ -213,8 +213,8 @@ function InheritanceView(dataObj){
 		
 		// Highlight selected funcs/vars
 		function highlight(code, sel) {
-			var regExp = new RegExp("."+sel, "g");
-			code = code.replace(regExp, ".<span class='highlight'>"+sel+"</span>");
+			var regExp = new RegExp("this."+sel, "g");
+			code = code.replace(regExp, "this.<span class='highlight'>"+sel+"</span>");
 			return code;
 		}
 		
