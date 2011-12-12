@@ -223,7 +223,7 @@ $(function(){
   
   // Help button
   $("#help").click(function(){
-    window.open("http://www.zreference.com/znode", "_blank");
+    window.open("help.html", "_blank");
   });
   
   // Inheritance view button
